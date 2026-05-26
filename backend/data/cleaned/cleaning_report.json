@@ -1,0 +1,47 @@
+{
+  "project_name": "AI_Banking",
+  "cleaned_on": "2026-05-26",
+  "raw_transactions_file": "backend/data/raw/personal_transactions.csv",
+  "cleaned_transactions_file": "backend/data/cleaned/personal_transactions_cleaned.csv",
+  "transactions_original_rows": 806,
+  "transactions_cleaned_rows": 806,
+  "transactions_removed_rows": 0,
+  "invalid_transaction_rows_removed": 0,
+  "transaction_date_min": "2018-01-01",
+  "transaction_date_max": "2019-09-30",
+  "transaction_month_count": 21,
+  "transaction_category_count": 22,
+  "amount_min": 1.75,
+  "amount_max": 9200.0,
+  "missing_values_after_cleaning": {
+    "date": 0,
+    "month": 0,
+    "year": 0,
+    "description": 0,
+    "amount": 0,
+    "transaction_type": 0,
+    "category": 0,
+    "payment_method": 0,
+    "source": 0
+  },
+  "cleaning_steps": [
+    "standardised column names",
+    "converted dates to ISO yyyy-mm-dd",
+    "added month and year columns",
+    "converted amount to positive numeric values",
+    "normalised transaction type to income/expense",
+    "trimmed descriptions, categories and payment methods",
+    "filled blank categories/payment methods",
+    "removed duplicate rows",
+    "created cleaning report"
+  ],
+  "budget_original_rows": 19,
+  "budget_cleaned_rows": 19,
+  "budget_categories": 19,
+  "budget_cleaning_steps": [
+    "standardised category names",
+    "converted budget values to numeric values",
+    "grouped duplicate categories",
+    "added month and monthly_income columns for backend compatibility"
+  ]
+}

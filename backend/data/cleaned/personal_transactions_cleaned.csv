@@ -1,0 +1,807 @@
+date,month,year,description,amount,transaction_type,category,payment_method,source
+2018-01-01,2018-01,2018,Amazon,11.11,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-01-02,2018-01,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-01-02,2018-01,2018,Thai Restaurant,24.22,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-01-03,2018-01,2018,Credit Card Payment,2298.09,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-01-04,2018-01,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-01-05,2018-01,2018,American Tavern,25.85,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-01-06,2018-01,2018,Hardware Store,18.45,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-01-08,2018-01,2018,Gas Company,45.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-01-08,2018-01,2018,Hardware Store,15.38,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-01-09,2018-01,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-01-10,2018-01,2018,Phone Company,89.46,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-01-11,2018-01,2018,Shell,34.87,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-01-11,2018-01,2018,Grocery Store,43.54,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-01-12,2018-01,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-01-13,2018-01,2018,Pizza Place,32.91,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-01-13,2018-01,2018,Amazon,39.05,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-01-15,2018-01,2018,Grocery Store,44.19,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-01-15,2018-01,2018,American Tavern,64.11,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-01-16,2018-01,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-01-16,2018-01,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-01-19,2018-01,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-01-20,2018-01,2018,Amazon,50.21,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-01-22,2018-01,2018,Credit Card Payment,554.99,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-01-22,2018-01,2018,Credit Card Payment,309.81,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-01-22,2018-01,2018,Credit Card Payment,554.99,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-01-22,2018-01,2018,Hardware Store,17.38,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-01-23,2018-01,2018,Credit Card Payment,309.81,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-01-24,2018-01,2018,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-01-25,2018-01,2018,Internet Service Provider,69.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-01-29,2018-01,2018,Shell,30.42,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-01-29,2018-01,2018,Thai Restaurant,25.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-01-29,2018-01,2018,Brunch Restaurant,17.62,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-02-01,2018-02,2018,Grocery Store,27.79,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-02-01,2018-02,2018,Amazon,11.11,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-02-02,2018-02,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-02-02,2018-02,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-02-03,2018-02,2018,Japanese Restaurant,57.02,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-02-04,2018-02,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-02-05,2018-02,2018,Credit Card Payment,145.14,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-02-06,2018-02,2018,Credit Card Payment,154.13,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-02-07,2018-02,2018,Credit Card Payment,154.13,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-02-07,2018-02,2018,Gas Company,65.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-02-09,2018-02,2018,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2018-02-09,2018-02,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-02-10,2018-02,2018,Bojangles,10.66,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-02-11,2018-02,2018,Fancy Restaurant,106.80,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-02-12,2018-02,2018,Shell,36.47,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-02-12,2018-02,2018,Phone Company,89.52,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-02-14,2018-02,2018,Brewing Company,14.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-02-15,2018-02,2018,American Tavern,10.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-02-15,2018-02,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-02-16,2018-02,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-02-16,2018-02,2018,Brunch Restaurant,8.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-02-16,2018-02,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-02-20,2018-02,2018,Grocery Store,35.95,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-02-20,2018-02,2018,Mexican Restaurant,23.51,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-02-21,2018-02,2018,Starbucks,2.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-02-22,2018-02,2018,Starbucks,4.00,expense,Coffee Shops,Silver Card,uploaded_cleaned_demo
+2018-02-26,2018-02,2018,Credit Card Payment,765.37,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-02-26,2018-02,2018,Credit Card Payment,156.11,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-02-26,2018-02,2018,Credit Card Payment,765.37,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-02-26,2018-02,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-02-26,2018-02,2018,American Tavern,85.52,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-02-26,2018-02,2018,Gas Station,32.21,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-02-27,2018-02,2018,Credit Card Payment,156.11,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-03-01,2018-03,2018,Grocery Store,32.07,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-03-01,2018-03,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-03-02,2018-03,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-03-02,2018-03,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-03-03,2018-03,2018,Grocery Store,23.74,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-03-04,2018-03,2018,Grocery Store,10.69,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-03-04,2018-03,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-03-04,2018-03,2018,BBQ Restaurant,42.24,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-03-05,2018-03,2018,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-03-05,2018-03,2018,Credit Card Payment,761.59,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-03-05,2018-03,2018,Credit Card Payment,761.59,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-03-07,2018-03,2018,Starbucks,3.50,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-03-08,2018-03,2018,BP,34.90,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-03-08,2018-03,2018,Gas Company,52.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-03-09,2018-03,2018,Grocery Store,20.72,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-03-09,2018-03,2018,Grocery Store,5.09,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-03-09,2018-03,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-03-12,2018-03,2018,Grocery Store,19.35,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-03-12,2018-03,2018,Phone Company,89.52,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-03-13,2018-03,2018,Amazon,45.75,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-03-14,2018-03,2018,Grocery Store,22.50,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-03-14,2018-03,2018,Brunch Restaurant,8.49,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-03-15,2018-03,2018,Starbucks,3.50,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-03-15,2018-03,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-03-16,2018-03,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-03-17,2018-03,2018,Brewing Company,19.50,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-03-17,2018-03,2018,Pizza Place,23.34,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-03-19,2018-03,2018,Mediterranean Restaurant,36.48,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-03-19,2018-03,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-03-20,2018-03,2018,Amazon,14.97,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-03-22,2018-03,2018,BP,30.55,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-03-23,2018-03,2018,Credit Card Payment,559.91,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-03-23,2018-03,2018,Credit Card Payment,559.91,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-03-23,2018-03,2018,Grocery Store,11.76,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-03-26,2018-03,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-03-28,2018-03,2018,Grocery Store,16.06,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-03-28,2018-03,2018,Pizza Place,24.98,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-03-29,2018-03,2018,Steakhouse,17.64,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-03-30,2018-03,2018,Grocery Store,9.09,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-03-30,2018-03,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-03-31,2018-03,2018,Belgian Restaurant,38.32,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-03-31,2018-03,2018,Chili's,24.74,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-03-31,2018-03,2018,Greek Restaurant,41.16,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-04-01,2018-04,2018,Grocery Store,80.79,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-04-01,2018-04,2018,Brewing Company,59.48,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-04-01,2018-04,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-04-02,2018-04,2018,Credit Card Payment,817.14,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-04-02,2018-04,2018,Credit Card Payment,817.14,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-04-02,2018-04,2018,Grocery Store,82.36,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-04-02,2018-04,2018,Hardware Store,13.89,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-04-02,2018-04,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-04-03,2018-04,2018,Amazon Video,6.41,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-04-04,2018-04,2018,Credit Card Payment,363.08,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-04-04,2018-04,2018,Credit Card Payment,363.08,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-04-04,2018-04,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-04-06,2018-04,2018,Chevron,4.58,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-04-06,2018-04,2018,Tiny Deli,9.76,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-04-08,2018-04,2018,Irish Pub,22.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-04-09,2018-04,2018,Blue Sky Market,6.48,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-04-09,2018-04,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-04-09,2018-04,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-04-11,2018-04,2018,Phone Company,89.52,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-04-12,2018-04,2018,Starbucks,7.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-04-12,2018-04,2018,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2018-04-13,2018-04,2018,BP,37.98,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-04-13,2018-04,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-04-13,2018-04,2018,American Tavern,10.66,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-04-14,2018-04,2018,Hardware Store,11.61,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-04-14,2018-04,2018,American Tavern,41.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-04-16,2018-04,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-04-16,2018-04,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-04-18,2018-04,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-04-20,2018-04,2018,Thai Restaurant,24.22,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-04-21,2018-04,2018,Grocery Store,4.32,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-04-21,2018-04,2018,American Tavern,35.15,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-04-22,2018-04,2018,Grocery Store,21.32,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-04-23,2018-04,2018,Hardware Store,42.70,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-04-24,2018-04,2018,Hardware Store,224.70,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-04-24,2018-04,2018,Amazon,41.34,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-04-25,2018-04,2018,Hardware Store,210.79,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-04-25,2018-04,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-04-26,2018-04,2018,Credit Card Payment,769.72,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-04-26,2018-04,2018,Credit Card Payment,1216.94,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-04-26,2018-04,2018,Credit Card Payment,1216.94,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-04-27,2018-04,2018,Credit Card Payment,769.72,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-04-27,2018-04,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-04-28,2018-04,2018,Grocery Store,22.98,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-04-29,2018-04,2018,QuikTrip,39.00,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-04-29,2018-04,2018,Grocery Store,51.05,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-04-29,2018-04,2018,Hardware Store,68.47,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-04-30,2018-04,2018,Grocery Store,5.09,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-05-01,2018-05,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-05-02,2018-05,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-05-03,2018-05,2018,Amazon,49.72,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-05-04,2018-05,2018,Grocery Store,42.23,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-05-04,2018-05,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-05-05,2018-05,2018,Bojangles,7.27,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-05-05,2018-05,2018,Pizza Place,20.52,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-05-06,2018-05,2018,Hardware Store,22.37,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-05-06,2018-05,2018,Amazon,117.69,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-05-09,2018-05,2018,Credit Card Payment,601.40,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-05-09,2018-05,2018,Credit Card Payment,601.40,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-05-09,2018-05,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-05-09,2018-05,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-05-10,2018-05,2018,Phone Company,111.18,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-05-11,2018-05,2018,Grocery Store,57.32,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-05-11,2018-05,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-05-11,2018-05,2018,Mike's Construction Co.,8000.00,expense,Home Improvement,Checking,uploaded_cleaned_demo
+2018-05-12,2018-05,2018,Liquor Store,27.77,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-05-12,2018-05,2018,Shell,33.30,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-05-12,2018-05,2018,Fancy Restaurant,78.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-05-14,2018-05,2018,Grocery Store,67.63,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-05-15,2018-05,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-05-17,2018-05,2018,Barbershop,29.00,expense,Haircut,Silver Card,uploaded_cleaned_demo
+2018-05-17,2018-05,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-05-18,2018-05,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-05-18,2018-05,2018,Amazon,6.41,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-05-19,2018-05,2018,Credit Card Payment,207.08,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-05-19,2018-05,2018,Grocery Store,31.00,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-05-19,2018-05,2018,Greek Restaurant,23.26,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-05-21,2018-05,2018,Credit Card Payment,283.07,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-05-21,2018-05,2018,Thai Restaurant,26.04,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-05-21,2018-05,2018,Amazon,32.50,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-05-22,2018-05,2018,Credit Card Payment,283.07,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-05-24,2018-05,2018,BP,39.44,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-05-25,2018-05,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-05-25,2018-05,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-05-28,2018-05,2018,Movie Theater,9.62,expense,Entertainment,Silver Card,uploaded_cleaned_demo
+2018-05-28,2018-05,2018,Grocery Store,91.03,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-05-29,2018-05,2018,Movie Theater,20.00,expense,Movies & Dvds,Silver Card,uploaded_cleaned_demo
+2018-05-29,2018-05,2018,Movie Theater,6.25,expense,Movies & Dvds,Silver Card,uploaded_cleaned_demo
+2018-06-01,2018-06,2018,BP,38.63,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-06-01,2018-06,2018,Grocery Store,6.11,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-01,2018-06,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-06-02,2018-06,2018,Credit Card Payment,235.18,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-06-02,2018-06,2018,Credit Card Payment,466.36,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-06-03,2018-06,2018,Italian Restaurant,65.81,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-06-04,2018-06,2018,Credit Card Payment,235.18,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-06-04,2018-06,2018,Grocery Store,24.12,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-04,2018-06,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-06-04,2018-06,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-06-06,2018-06,2018,Starbucks,4.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-06-08,2018-06,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-06-08,2018-06,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-06-09,2018-06,2018,Chick-Fil-A,16.18,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-06-09,2018-06,2018,Grocery Store,9.56,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-09,2018-06,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-06-10,2018-06,2018,Grocery Store,46.01,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-12,2018-06,2018,Grocery Store,12.55,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-12,2018-06,2018,Phone Company,89.46,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-06-14,2018-06,2018,Credit Card Payment,283.44,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-06-14,2018-06,2018,Credit Card Payment,283.44,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-06-14,2018-06,2018,Grocery Store,7.02,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-15,2018-06,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-06-16,2018-06,2018,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-06-16,2018-06,2018,Pizza Place,22.66,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-06-16,2018-06,2018,Grocery Store,13.90,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-18,2018-06,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-06-19,2018-06,2018,Shell,38.52,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-06-19,2018-06,2018,Grocery Store,2.69,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-06-20,2018-06,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-06-20,2018-06,2018,Credit Card Payment,89.45,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-06-20,2018-06,2018,Barbershop,30.00,expense,Haircut,Silver Card,uploaded_cleaned_demo
+2018-06-21,2018-06,2018,Credit Card Payment,89.45,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-06-22,2018-06,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-06-23,2018-06,2018,Brunch Restaurant,8.50,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-06-23,2018-06,2018,Amazon,74.97,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-06-25,2018-06,2018,Credit Card Payment,942.76,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-06-25,2018-06,2018,Credit Card Payment,942.76,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-06-25,2018-06,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-06-26,2018-06,2018,Grocery Store,9.62,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-06-27,2018-06,2018,Starbucks,3.50,expense,Coffee Shops,Silver Card,uploaded_cleaned_demo
+2018-06-27,2018-06,2018,Pizza Place,22.66,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-06-28,2018-06,2018,Grocery Store,7.57,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-07-01,2018-07,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-07-02,2018-07,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-07-02,2018-07,2018,Movie Theater,25.00,expense,Movies & Dvds,Silver Card,uploaded_cleaned_demo
+2018-07-02,2018-07,2018,American Tavern,36.44,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-07-04,2018-07,2018,BP,34.48,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-07-04,2018-07,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-07-05,2018-07,2018,Grocery Store,44.25,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-07-05,2018-07,2018,Amazon,212.32,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-07-06,2018-07,2018,Amazon Video,6.41,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-07-06,2018-07,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-07-08,2018-07,2018,Credit Card Payment,259.87,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-07-09,2018-07,2018,Credit Card Payment,242.16,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-07-09,2018-07,2018,Credit Card Payment,259.87,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-07-09,2018-07,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-07-10,2018-07,2018,Credit Card Payment,242.16,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-07-10,2018-07,2018,Grocery Store,5.39,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-07-10,2018-07,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-07-11,2018-07,2018,Phone Company,89.46,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-07-14,2018-07,2018,Go Mart,33.51,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-07-15,2018-07,2018,Circle K,36.24,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-07-17,2018-07,2018,Wendy's,15.23,expense,Fast Food,Silver Card,uploaded_cleaned_demo
+2018-07-17,2018-07,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-07-17,2018-07,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-07-18,2018-07,2018,Irish Restaurant,28.54,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-07-18,2018-07,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-07-20,2018-07,2018,Credit Card Payment,61.43,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-07-20,2018-07,2018,Credit Card Payment,102.88,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-07-20,2018-07,2018,Credit Card Payment,102.88,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-07-20,2018-07,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-07-21,2018-07,2018,Grocery Store,28.93,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-07-21,2018-07,2018,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2018-07-23,2018-07,2018,Credit Card Payment,61.43,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-07-23,2018-07,2018,Starbucks,9.58,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-07-24,2018-07,2018,American Tavern,26.59,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-07-25,2018-07,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-07-26,2018-07,2018,Conoco,33.67,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-07-28,2018-07,2018,Grocery Store,7.61,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-07-30,2018-07,2018,American Tavern,34.38,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-07-31,2018-07,2018,Brewing Company,6.60,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-08-01,2018-08,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-08-02,2018-08,2018,Credit Card Payment,816.27,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-08-02,2018-08,2018,Shell,40.44,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-08-02,2018-08,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-08-03,2018-08,2018,Grocery Store,6.27,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-08-03,2018-08,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-08-04,2018-08,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-08-06,2018-08,2018,Amazon,76.47,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-08-09,2018-08,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-08-09,2018-08,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-08-10,2018-08,2018,Phone Company,89.40,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-08-11,2018-08,2018,Chick-Fil-A,13.67,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-08-11,2018-08,2018,Valero,33.66,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-08-15,2018-08,2018,Credit Card Payment,269.56,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-08-15,2018-08,2018,Credit Card Payment,159.38,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-08-15,2018-08,2018,Shell,41.07,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-08-15,2018-08,2018,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-08-15,2018-08,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-08-16,2018-08,2018,Credit Card Payment,269.56,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-08-16,2018-08,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-08-17,2018-08,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-08-17,2018-08,2018,Amazon,14.98,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-08-18,2018-08,2018,Amazon,23.47,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-08-20,2018-08,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-08-21,2018-08,2018,Credit Card Payment,34.18,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-08-21,2018-08,2018,Credit Card Payment,99.76,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-08-21,2018-08,2018,Credit Card Payment,99.76,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-08-22,2018-08,2018,Credit Card Payment,34.18,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-08-24,2018-08,2018,American Tavern,42.31,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-08-27,2018-08,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-08-30,2018-08,2018,Shell,35.65,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-08-31,2018-08,2018,Grocery Store,11.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-08-31,2018-08,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-09-01,2018-09,2018,Brewing Company,47.40,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-09-01,2018-09,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-09-02,2018-09,2018,Amazon,109.83,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-09-04,2018-09,2018,Credit Card Payment,687.29,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-09-04,2018-09,2018,Credit Card Payment,687.29,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-09-04,2018-09,2018,Mortgage Payment,1247.44,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-09-04,2018-09,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-09-07,2018-09,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-09-09,2018-09,2018,Brewing Company,18.00,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-09-09,2018-09,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-09-11,2018-09,2018,BP,38.86,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-09-11,2018-09,2018,Grocery Store,7.87,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-12,2018-09,2018,Grocery Store,47.16,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-12,2018-09,2018,Phone Company,89.40,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-09-13,2018-09,2018,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-14,2018-09,2018,Credit Card Payment,134.34,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-09-14,2018-09,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-09-17,2018-09,2018,Grocery Store,10.17,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-17,2018-09,2018,Grocery Store,8.80,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-17,2018-09,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-09-18,2018-09,2018,Grocery Store,4.32,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-18,2018-09,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-09-19,2018-09,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-09-19,2018-09,2018,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2018-09-20,2018-09,2018,Amazon,47.38,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-09-22,2018-09,2018,Hardware Store,69.40,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-09-22,2018-09,2018,Hardware Store,6.83,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-09-25,2018-09,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-09-25,2018-09,2018,Sushi Restaurant,48.64,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-09-26,2018-09,2018,Starbucks,5.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-09-26,2018-09,2018,Exxon,38.00,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-09-27,2018-09,2018,Valero,40.71,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-09-28,2018-09,2018,Credit Card Payment,128.12,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-09-28,2018-09,2018,Credit Card Payment,284.96,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-09-28,2018-09,2018,Credit Card Payment,284.96,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-09-28,2018-09,2018,Grocery Store,13.36,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-09-28,2018-09,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-09-29,2018-09,2018,Greek Restaurant,23.26,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-09-29,2018-09,2018,German Restaurant,46.70,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-10-01,2018-10,2018,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2018-10-01,2018-10,2018,Credit Card Payment,128.12,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-10-01,2018-10,2018,Grocery Store,15.66,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-10-01,2018-10,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-10-02,2018-10,2018,Credit Card Payment,124.03,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-10-02,2018-10,2018,Credit Card Payment,124.03,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-10-02,2018-10,2018,Mortgage Payment,1209.18,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-10-04,2018-10,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-10-06,2018-10,2018,American Tavern,27.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-10-08,2018-10,2018,Shell,38.06,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-10-08,2018-10,2018,Hardware Store,80.65,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-10-08,2018-10,2018,Hardware Store,31.20,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-10-09,2018-10,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-10-09,2018-10,2018,Amazon,19.98,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-10-09,2018-10,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-10-10,2018-10,2018,Grocery Store,53.68,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-10-11,2018-10,2018,Phone Company,89.40,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-10-12,2018-10,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-10-16,2018-10,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-10-17,2018-10,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-10-18,2018-10,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-10-18,2018-10,2018,Grocery Store,33.55,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-10-18,2018-10,2018,Hardware Store,45.24,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-10-18,2018-10,2018,Brunch Restaurant,8.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-10-21,2018-10,2018,Credit Card Payment,544.37,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-10-22,2018-10,2018,Credit Card Payment,353.83,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-10-22,2018-10,2018,Credit Card Payment,353.83,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-10-22,2018-10,2018,BP,34.66,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-10-23,2018-10,2018,Grocery Store,7.57,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-10-25,2018-10,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-10-25,2018-10,2018,Amazon,29.98,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-10-26,2018-10,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-10-27,2018-10,2018,American Tavern,25.40,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-10-28,2018-10,2018,Brewing Company,12.71,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-10-28,2018-10,2018,Seafood Restaurant,14.75,expense,Food & Dining,Platinum Card,uploaded_cleaned_demo
+2018-10-28,2018-10,2018,Grocery Store,92.49,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-10-28,2018-10,2018,Italian Restaurant,54.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-10-31,2018-10,2018,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-01,2018-11,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-11-02,2018-11,2018,Credit Card Payment,262.51,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-11-02,2018-11,2018,Credit Card Payment,262.51,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-11-02,2018-11,2018,Mortgage Payment,1209.18,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-11-03,2018-11,2018,Pizza Place,23.66,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-11-04,2018-11,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-11-05,2018-11,2018,Shell,36.51,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-11-06,2018-11,2018,Amazon,53.95,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-11-06,2018-11,2018,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-11-08,2018-11,2018,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-09,2018-11,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-11-09,2018-11,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-11-10,2018-11,2018,Brewing Company,27.00,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-11-10,2018-11,2018,Chick-Fil-A,14.19,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-11-10,2018-11,2018,Food Truck,24.40,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-12,2018-11,2018,Grocery Store,10.18,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-12,2018-11,2018,American Tavern,22.33,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-11-13,2018-11,2018,Grocery Store,4.80,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-13,2018-11,2018,Grocery Store,37.43,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-13,2018-11,2018,Grocery Store,10.15,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-11-13,2018-11,2018,Phone Company,89.54,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-11-14,2018-11,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-11-16,2018-11,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-11-17,2018-11,2018,Brewing Company,22.80,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2018-11-17,2018-11,2018,Hardware Store,15.47,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-11-17,2018-11,2018,Hardware Store,6.40,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-11-17,2018-11,2018,Greek Restaurant,23.26,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-11-19,2018-11,2018,Brewing Company,20.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-11-19,2018-11,2018,QuikTrip,29.15,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-11-19,2018-11,2018,Hardware Store,10.02,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-11-20,2018-11,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-11-20,2018-11,2018,Credit Card Payment,421.96,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-11-21,2018-11,2018,Grocery Store,5.64,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-11-21,2018-11,2018,Hardware Store,37.41,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-11-23,2018-11,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-11-26,2018-11,2018,American Tavern,16.80,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-11-26,2018-11,2018,Internet Service Provider,74.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-11-27,2018-11,2018,Movie Theater,17.00,expense,Movies & Dvds,Silver Card,uploaded_cleaned_demo
+2018-11-27,2018-11,2018,American Tavern,28.40,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-11-29,2018-11,2018,Credit Card Payment,582.99,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-11-29,2018-11,2018,Credit Card Payment,751.50,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-11-30,2018-11,2018,Credit Card Payment,582.99,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-11-30,2018-11,2018,Grocery Store,6.27,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-12-01,2018-12,2018,Grocery Store,5.64,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-12-01,2018-12,2018,Brunch Restaurant,8.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-12-01,2018-12,2018,Amazon,13.13,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-12-03,2018-12,2018,BP,30.03,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-12-03,2018-12,2018,Grocery Store,148.15,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-12-03,2018-12,2018,Mortgage Payment,1209.18,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2018-12-04,2018-12,2018,Starbucks,3.00,expense,Coffee Shops,Silver Card,uploaded_cleaned_demo
+2018-12-04,2018-12,2018,Latin Restaurant,20.65,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-12-04,2018-12,2018,Netflix,11.76,expense,Movies & Dvds,Platinum Card,uploaded_cleaned_demo
+2018-12-06,2018-12,2018,Grocery Store,21.38,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-12-06,2018-12,2018,Grocery Store,13.48,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-12-06,2018-12,2018,Gas Company,40.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-12-07,2018-12,2018,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2018-12-07,2018-12,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-12-08,2018-12,2018,Grocery Store,12.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2018-12-09,2018-12,2018,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2018-12-11,2018-12,2018,Brunch Restaurant,10.29,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2018-12-12,2018-12,2018,Phone Company,89.54,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2018-12-13,2018-12,2018,Thai Restaurant,27.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-12-14,2018-12,2018,Grocery Store,21.39,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2018-12-14,2018-12,2018,Hardware Store,17.10,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2018-12-14,2018-12,2018,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-12-17,2018-12,2018,American Tavern,63.00,expense,Food & Dining,Silver Card,uploaded_cleaned_demo
+2018-12-17,2018-12,2018,BP,20.01,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-12-17,2018-12,2018,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Starbucks,3.00,expense,Coffee Shops,Silver Card,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Credit Card Payment,311.02,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Credit Card Payment,311.02,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Fancy Restaurant,56.52,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Amazon,49.99,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Amazon,41.72,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-12-18,2018-12,2018,Amazon,24.30,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-12-19,2018-12,2018,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2018-12-19,2018-12,2018,Amazon,43.01,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-12-20,2018-12,2018,Credit Card Payment,464.03,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2018-12-20,2018-12,2018,Shell,30.38,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2018-12-21,2018-12,2018,Credit Card Payment,464.03,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2018-12-21,2018-12,2018,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2018-12-22,2018-12,2018,New York Deli,21.38,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-12-22,2018-12,2018,Hardware Store,22.14,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-12-23,2018-12,2018,Hardware Store,28.00,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-12-24,2018-12,2018,Hardware Store,38.40,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2018-12-26,2018-12,2018,Chick-Fil-A,56.07,expense,Fast Food,Platinum Card,uploaded_cleaned_demo
+2018-12-26,2018-12,2018,Shell,32.47,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-12-26,2018-12,2018,Shell,7.48,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2018-12-26,2018-12,2018,Internet Service Provider,75.99,expense,Internet,Checking,uploaded_cleaned_demo
+2018-12-26,2018-12,2018,Amazon,44.99,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2018-12-28,2018-12,2018,Brewing Company,12.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-12-29,2018-12,2018,Brewing Company,14.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2018-12-29,2018-12,2018,Credit Card Payment,860.05,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2018-12-29,2018-12,2018,Grocery Store,55.04,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-01-01,2019-01,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-01-02,2019-01,2019,Credit Card Payment,499.60,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-01-03,2019-01,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-01-03,2019-01,2019,Amazon,42.10,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-01-04,2019-01,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-01-05,2019-01,2019,American Tavern,23.49,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-01-08,2019-01,2019,Gas Company,45.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-01-09,2019-01,2019,Credit Card Payment,491.45,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-01-09,2019-01,2019,Credit Card Payment,491.45,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-01-09,2019-01,2019,Credit Card Payment,281.84,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-01-09,2019-01,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-01-10,2019-01,2019,Grocery Store,58.79,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-01-10,2019-01,2019,Barbershop,30.00,expense,Haircut,Silver Card,uploaded_cleaned_demo
+2019-01-10,2019-01,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-01-14,2019-01,2019,Shell,28.92,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-01-15,2019-01,2019,Grocery Store,6.06,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-01-16,2019-01,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-01-16,2019-01,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-01-18,2019-01,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-01-18,2019-01,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-01-21,2019-01,2019,Credit Card Payment,277.99,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-01-22,2019-01,2019,Credit Card Payment,277.99,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-01-24,2019-01,2019,Grocery Store,21.06,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-01-24,2019-01,2019,Amazon,11.70,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-01-24,2019-01,2019,Amazon,4.21,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-01-25,2019-01,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-01-31,2019-01,2019,Credit Card Payment,1900.00,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-01-31,2019-01,2019,Shell,31.32,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-02-01,2019-02,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-02-01,2019-02,2019,Roadside Diner,9.47,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-02-01,2019-02,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-02-04,2019-02,2019,Hardware Store,86.97,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2019-02-04,2019-02,2019,Netflix,11.76,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-02-05,2019-02,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-02-07,2019-02,2019,Gas Company,65.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-02-08,2019-02,2019,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-02-08,2019-02,2019,Thai Restaurant,27.47,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-02-09,2019-02,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-02-11,2019-02,2019,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-02-11,2019-02,2019,Credit Card Payment,133.95,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-02-11,2019-02,2019,BP,24.01,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-02-12,2019-02,2019,Grocery Store,30.54,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-02-12,2019-02,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-02-13,2019-02,2019,Grocery Store,8.21,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-02-15,2019-02,2019,Credit Card Payment,207.47,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-02-15,2019-02,2019,Credit Card Payment,207.47,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-02-15,2019-02,2019,Grocery Store,4.59,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-02-15,2019-02,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-02-15,2019-02,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-02-16,2019-02,2019,Brewing Company,8.00,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2019-02-16,2019-02,2019,American Tavern,32.75,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-02-16,2019-02,2019,Amazon,37.45,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-02-19,2019-02,2019,Credit Card Payment,574.84,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-02-19,2019-02,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-02-20,2019-02,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-02-20,2019-02,2019,Credit Card Payment,292.54,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-02-20,2019-02,2019,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2019-02-21,2019-02,2019,Credit Card Payment,292.54,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-02-21,2019-02,2019,Grocery Store,46.96,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-02-25,2019-02,2019,BP,33.80,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-02-25,2019-02,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-02-27,2019-02,2019,Roadside Diner,25.77,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-02-28,2019-02,2019,Grocery Store,32.07,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-03-01,2019-03,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-03-01,2019-03,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-03-04,2019-03,2019,Grocery Store,92.04,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-03-04,2019-03,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-03-04,2019-03,2019,Netflix,11.76,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-03-05,2019-03,2019,Fancy Restaurant,7.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-03-06,2019-03,2019,Credit Card Payment,491.86,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-03-08,2019-03,2019,BP,34.08,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-03-08,2019-03,2019,Amazon,27.17,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-03-08,2019-03,2019,Gas Company,49.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-03-09,2019-03,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-03-12,2019-03,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-03-12,2019-03,2019,Bakery Place,3.02,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-03-13,2019-03,2019,Credit Card Payment,532.86,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-03-13,2019-03,2019,Credit Card Payment,301.79,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-03-14,2019-03,2019,Credit Card Payment,305.27,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-03-14,2019-03,2019,Credit Card Payment,301.79,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-03-14,2019-03,2019,Brunch Restaurant,8.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-03-15,2019-03,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-03-15,2019-03,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-03-18,2019-03,2019,Best Buy,320.99,expense,Electronics & Software,Platinum Card,uploaded_cleaned_demo
+2019-03-18,2019-03,2019,Grocery Store,16.23,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-03-19,2019-03,2019,Amazon,13.84,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-03-19,2019-03,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-03-20,2019-03,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-03-22,2019-03,2019,BP,37.51,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-03-23,2019-03,2019,Starbucks,5.20,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-03-25,2019-03,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-03-26,2019-03,2019,Amazon,16.04,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-03-27,2019-03,2019,Brewing Company,49.63,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2019-03-27,2019-03,2019,Grocery Store,4.46,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-03-29,2019-03,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-03-30,2019-03,2019,Starbucks,12.84,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-03-31,2019-03,2019,Credit Card Payment,957.60,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-04-01,2019-04,2019,Credit Card Payment,1552.65,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-04-01,2019-04,2019,Credit Card Payment,600.51,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-04-01,2019-04,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-04-02,2019-04,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-04-04,2019-04,2019,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-04-04,2019-04,2019,Amazon,35.90,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-04-04,2019-04,2019,Netflix,11.76,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-04-06,2019-04,2019,Amazon,27.54,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-04-08,2019-04,2019,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-04-09,2019-04,2019,Credit Card Payment,436.75,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-04-09,2019-04,2019,Grocery Store,10.70,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-04-09,2019-04,2019,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2019-04-09,2019-04,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-04-10,2019-04,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-04-12,2019-04,2019,Best Buy,44.93,expense,Electronics & Software,Silver Card,uploaded_cleaned_demo
+2019-04-12,2019-04,2019,Grocery Store,41.34,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-04-12,2019-04,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-04-13,2019-04,2019,QuikTrip,38.94,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-04-13,2019-04,2019,Grocery Store,16.87,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-04-13,2019-04,2019,Vietnamese Restaurant,20.64,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-04-15,2019-04,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-04-16,2019-04,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-04-18,2019-04,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-04-18,2019-04,2019,Credit Card Payment,604.32,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-04-18,2019-04,2019,Credit Card Payment,458.10,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-04-19,2019-04,2019,Credit Card Payment,604.32,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-04-19,2019-04,2019,Grocery Store,10.89,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-04-22,2019-04,2019,Brewing Company,14.40,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2019-04-22,2019-04,2019,Greek Restaurant,64.52,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-04-23,2019-04,2019,Hardware Store,29.56,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2019-04-25,2019-04,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-04-26,2019-04,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-04-27,2019-04,2019,Brewing Company,40.00,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2019-04-27,2019-04,2019,Credit Card Payment,268.96,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-04-27,2019-04,2019,American Tavern,14.74,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-04-29,2019-04,2019,Credit Card Payment,268.96,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-04-29,2019-04,2019,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-04-30,2019-04,2019,BP,39.08,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-05-01,2019-05,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-05-02,2019-05,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-05-03,2019-05,2019,Credit Card Payment,758.07,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-05-04,2019-05,2019,Netflix,13.90,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-05-06,2019-05,2019,Amazon,16.94,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-05-07,2019-05,2019,Amazon,38.56,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-05-09,2019-05,2019,Best Buy,331.69,expense,Electronics & Software,Platinum Card,uploaded_cleaned_demo
+2019-05-09,2019-05,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-05-09,2019-05,2019,Target,3.20,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-05-09,2019-05,2019,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-05-10,2019-05,2019,Best Buy,21.39,expense,Electronics & Software,Silver Card,uploaded_cleaned_demo
+2019-05-10,2019-05,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-05-10,2019-05,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-05-13,2019-05,2019,Credit Card Payment,480.88,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-05-13,2019-05,2019,QuikTrip,35.24,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-05-13,2019-05,2019,Fancy Restaurant,98.19,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-05-13,2019-05,2019,Greek Restaurant,23.11,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-05-14,2019-05,2019,Grocery Store,2.02,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-05-15,2019-05,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-05-17,2019-05,2019,Credit Card Payment,575.33,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-05-17,2019-05,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-05-20,2019-05,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-05-20,2019-05,2019,Credit Card Payment,415.47,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-05-20,2019-05,2019,American Tavern,32.53,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-05-24,2019-05,2019,Credit Card Payment,765.68,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-05-24,2019-05,2019,Hardware Store,27.96,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2019-05-24,2019-05,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-05-24,2019-05,2019,Brunch Restaurant,8.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-05-25,2019-05,2019,QuikTrip,36.76,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-05-25,2019-05,2019,Hardware Store,30.99,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2019-05-27,2019-05,2019,Mexican Restaurant,34.33,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-05-28,2019-05,2019,Credit Card Payment,765.68,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-05-30,2019-05,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-05-30,2019-05,2019,American Tavern,34.82,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-06-01,2019-06,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-06-03,2019-06,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-06-03,2019-06,2019,Credit Card Payment,260.95,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-06-03,2019-06,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-06-04,2019-06,2019,Barbershop,30.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2019-06-04,2019-06,2019,Netflix,13.90,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-06-05,2019-06,2019,Grocery Store,23.00,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-06-05,2019-06,2019,Mexican Restaurant,23.24,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-06-06,2019-06,2019,Starbucks,3.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-06-06,2019-06,2019,Grocery Store,5.64,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-06-07,2019-06,2019,Credit Card Payment,458.56,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-06-07,2019-06,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-06-07,2019-06,2019,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-06-09,2019-06,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-06-12,2019-06,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-06-13,2019-06,2019,Credit Card Payment,152.72,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-06-13,2019-06,2019,Credit Card Payment,152.72,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-06-14,2019-06,2019,Grocery Store,10.69,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-06-15,2019-06,2019,BP,33.16,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-06-17,2019-06,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-06-17,2019-06,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-06-18,2019-06,2019,Brewing Company,15.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2019-06-18,2019-06,2019,Shell,41.83,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-06-19,2019-06,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-06-20,2019-06,2019,Credit Card Payment,375.26,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-06-20,2019-06,2019,Mike's Construction Co.,9200.00,expense,Home Improvement,Checking,uploaded_cleaned_demo
+2019-06-20,2019-06,2019,Credit Card Payment,100.68,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-06-21,2019-06,2019,Credit Card Payment,100.68,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-06-21,2019-06,2019,Biweekly Paycheck,2000.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-06-24,2019-06,2019,Brewing Company,15.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2019-06-28,2019-06,2019,BP,30.64,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-06-30,2019-06,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-07-01,2019-07,2019,Starbucks,7.00,expense,Coffee Shops,Silver Card,uploaded_cleaned_demo
+2019-07-01,2019-07,2019,Grocery Store,99.47,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-07-01,2019-07,2019,Hawaiian Grill,24.97,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-07-01,2019-07,2019,Thai Restaurant,24.00,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-07-01,2019-07,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-07-02,2019-07,2019,Hardware Store,229.90,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2019-07-02,2019-07,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-07-04,2019-07,2019,Netflix,13.90,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-07-05,2019-07,2019,Brewing Company,19.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2019-07-05,2019-07,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-07-06,2019-07,2019,Credit Card Payment,220.08,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-07-06,2019-07,2019,Grocery Store,92.98,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-07-06,2019-07,2019,Greek Restaurant,23.26,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-07-07,2019-07,2019,Hardware Store,103.14,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2019-07-08,2019-07,2019,Credit Card Payment,305.28,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-07-08,2019-07,2019,Credit Card Payment,220.08,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-07-09,2019-07,2019,Credit Card Payment,549.72,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-07-09,2019-07,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-07-10,2019-07,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-07-10,2019-07,2019,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-07-15,2019-07,2019,Grocery Store,87.14,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-07-16,2019-07,2019,Amazon,89.99,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-07-16,2019-07,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-07-17,2019-07,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-07-18,2019-07,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-07-18,2019-07,2019,Credit Card Payment,814.50,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-07-18,2019-07,2019,BP,36.42,expense,Gas & Fuel,Silver Card,uploaded_cleaned_demo
+2019-07-18,2019-07,2019,Grocery Store,29.83,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-07-18,2019-07,2019,Brunch Restaurant,8.82,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-07-19,2019-07,2019,Credit Card Payment,115.52,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-07-19,2019-07,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-07-19,2019-07,2019,Mexican Restaurant,28.00,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-07-22,2019-07,2019,Credit Card Payment,257.08,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-07-22,2019-07,2019,Thai Restaurant,26.67,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-07-23,2019-07,2019,Credit Card Payment,257.08,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-07-24,2019-07,2019,Starbucks,2.50,expense,Coffee Shops,Silver Card,uploaded_cleaned_demo
+2019-07-27,2019-07,2019,Barbershop,30.00,expense,Haircut,Silver Card,uploaded_cleaned_demo
+2019-07-28,2019-07,2019,Hardware Store,44.31,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2019-07-29,2019-07,2019,Grocery Store,5.35,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-07-29,2019-07,2019,Fancy Restaurant,44.92,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-07-30,2019-07,2019,Grocery Store,15.77,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-07-30,2019-07,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-08-01,2019-08,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-08-02,2019-08,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-08-02,2019-08,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-08-03,2019-08,2019,BP,36.36,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-08-03,2019-08,2019,Grocery Store,3.96,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-08-03,2019-08,2019,American Tavern,23.47,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-08-04,2019-08,2019,Netflix,13.90,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-08-05,2019-08,2019,Brewing Company,18.00,expense,Alcohol & Bars,Silver Card,uploaded_cleaned_demo
+2019-08-05,2019-08,2019,Credit Card Payment,349.28,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-08-05,2019-08,2019,Credit Card Payment,117.65,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-08-06,2019-08,2019,Credit Card Payment,521.17,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-08-06,2019-08,2019,Credit Card Payment,117.65,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-08-06,2019-08,2019,Hardware Store,125.00,expense,Home Improvement,Checking,uploaded_cleaned_demo
+2019-08-08,2019-08,2019,Grocery Store,11.72,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-08-09,2019-08,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-08-09,2019-08,2019,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-08-12,2019-08,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-08-12,2019-08,2019,Thai Restaurant,26.67,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-08-14,2019-08,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-08-15,2019-08,2019,Credit Card Payment,335.20,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-08-15,2019-08,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-08-16,2019-08,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-08-16,2019-08,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-08-17,2019-08,2019,Credit Card Payment,87.17,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-08-17,2019-08,2019,Grocery Store,33.15,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-08-17,2019-08,2019,Barbershop,19.00,expense,Haircut,Platinum Card,uploaded_cleaned_demo
+2019-08-17,2019-08,2019,American Tavern,3.50,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-08-19,2019-08,2019,Credit Card Payment,1248.95,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-08-20,2019-08,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-08-20,2019-08,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-08-21,2019-08,2019,Shell,34.69,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-08-23,2019-08,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-08-25,2019-08,2019,Brunch Restaurant,39.43,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-08-26,2019-08,2019,Hardware Store,66.75,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2019-08-29,2019-08,2019,Starbucks,3.00,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-08-30,2019-08,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-08-30,2019-08,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo
+2019-08-30,2019-08,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-08-31,2019-08,2019,Hardware Store,68.04,expense,Home Improvement,Platinum Card,uploaded_cleaned_demo
+2019-08-31,2019-08,2019,BBQ Restaurant,41.78,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-09-01,2019-09,2019,Amazon,13.09,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-09-03,2019-09,2019,Mortgage Payment,1100.00,expense,Mortgage & Rent,Checking,uploaded_cleaned_demo
+2019-09-03,2019-09,2019,Fancy Restaurant,41.24,expense,Restaurants,Silver Card,uploaded_cleaned_demo
+2019-09-04,2019-09,2019,Netflix,13.90,expense,Television,Platinum Card,uploaded_cleaned_demo
+2019-09-05,2019-09,2019,Starbucks,3.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-09-06,2019-09,2019,Credit Card Payment,1390.37,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-09-06,2019-09,2019,Credit Card Payment,1390.37,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-09-06,2019-09,2019,Credit Card Payment,502.75,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-09-07,2019-09,2019,Brewing Company,12.87,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2019-09-08,2019-09,2019,Brewing Company,19.30,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2019-09-09,2019-09,2019,Shell,28.77,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-09-09,2019-09,2019,Grocery Store,65.09,expense,Groceries,Silver Card,uploaded_cleaned_demo
+2019-09-09,2019-09,2019,Hardware Store,26.25,expense,Home Improvement,Silver Card,uploaded_cleaned_demo
+2019-09-09,2019-09,2019,Spotify,10.69,expense,Music,Platinum Card,uploaded_cleaned_demo
+2019-09-09,2019-09,2019,Gas Company,30.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-09-11,2019-09,2019,Credit Card Payment,360.56,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-09-11,2019-09,2019,Phone Company,65.00,expense,Mobile Phone,Checking,uploaded_cleaned_demo
+2019-09-12,2019-09,2019,Credit Card Payment,360.56,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-09-13,2019-09,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-09-13,2019-09,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-09-14,2019-09,2019,Grocery Store,46.44,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-09-15,2019-09,2019,Amazon,47.66,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-09-16,2019-09,2019,Credit Card Payment,90.57,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-09-16,2019-09,2019,Credit Card Payment,90.57,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-09-16,2019-09,2019,City Water Charges,35.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-09-17,2019-09,2019,Credit Card Payment,186.13,income,Credit Card Payment,Platinum Card,uploaded_cleaned_demo
+2019-09-17,2019-09,2019,Power Company,60.00,expense,Utilities,Checking,uploaded_cleaned_demo
+2019-09-18,2019-09,2019,State Farm,75.00,expense,Auto Insurance,Checking,uploaded_cleaned_demo
+2019-09-18,2019-09,2019,Credit Card Payment,1606.46,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-09-19,2019-09,2019,Brewing Company,40.81,expense,Alcohol & Bars,Platinum Card,uploaded_cleaned_demo
+2019-09-19,2019-09,2019,Starbucks,2.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-09-20,2019-09,2019,Credit Card Payment,9.43,income,Credit Card Payment,Silver Card,uploaded_cleaned_demo
+2019-09-22,2019-09,2019,Seafood Restaurant,131.10,expense,Restaurants,Platinum Card,uploaded_cleaned_demo
+2019-09-23,2019-09,2019,Credit Card Payment,9.43,expense,Credit Card Payment,Checking,uploaded_cleaned_demo
+2019-09-23,2019-09,2019,Grocery Store,27.71,expense,Groceries,Platinum Card,uploaded_cleaned_demo
+2019-09-23,2019-09,2019,Amazon,24.63,expense,Shopping,Platinum Card,uploaded_cleaned_demo
+2019-09-27,2019-09,2019,Biweekly Paycheck,2250.00,income,Paycheck,Checking,uploaded_cleaned_demo
+2019-09-28,2019-09,2019,BP,33.46,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-09-28,2019-09,2019,Sheetz,4.27,expense,Gas & Fuel,Platinum Card,uploaded_cleaned_demo
+2019-09-30,2019-09,2019,Starbucks,1.75,expense,Coffee Shops,Platinum Card,uploaded_cleaned_demo
+2019-09-30,2019-09,2019,Internet Service Provider,75.00,expense,Internet,Checking,uploaded_cleaned_demo

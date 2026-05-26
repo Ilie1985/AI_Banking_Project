@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# SQLite database
+backend/database/*.sqlite3
+backend/database/*.db
+
+# Keep raw uploaded data local by default
+backend/data/raw/*.csv
+
+# OS/editor files
+.DS_Store
+.vscode/
+.idea/

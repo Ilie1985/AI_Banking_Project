@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AI Banking</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js is used for dashboard, analysis and forecast charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <header class="top-header">
+    <div>
+      <h1>AI Banking</h1>
+      <p>Personal finance, budgeting, analytics and AI forecasting prototype</p>
+    </div>
+
+    <div class="api-status" id="apiStatus">
+      Checking API...
+    </div>
+  </header>
+
+  <nav class="nav-bar">
+    <button class="nav-btn active" onclick="showPage('home', this)">Home</button>
+    <button class="nav-btn" onclick="showPage('dashboard', this)">Dashboard</button>
+    <button class="nav-btn" onclick="showPage('budget', this)">Budget Tracker</button>
+    <button class="nav-btn" onclick="showPage('analysis', this)">Spending Analysis</button>
+    <button class="nav-btn" onclick="showPage('forecast', this)">AI Forecast</button>
+    <button class="nav-btn" onclick="showPage('insights', this)">AI Insights</button>
+    <button class="nav-btn" onclick="showPage('transactions', this)">Transactions</button>
+    <button class="nav-btn" onclick="showPage('upload', this)">Upload CSV</button>
+    <button class="nav-btn" onclick="showPage('audit', this)">Audit Log</button>
+  </nav>
+
+  <main class="container">
+
+    <!-- HOME PAGE -->
+    <section id="home" class="page active-page">
+      <div class="hero-card">
+        <h2>Welcome to AI Banking</h2>
+        <p>
+          This prototype helps users understand income, expenses, budgets,
+          spending patterns and future financial behaviour using data analytics
+          and machine learning.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>Budget Tracking</h3>
+            <p>Add income and category budgets to monitor spending limits.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Manual Transactions</h3>
+            <p>Add income or expenses directly when no CSV file is available.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>CSV Upload</h3>
+            <p>Upload bank-style CSV data and map your own column names.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>AI Forecast</h3>
+            <p>Use machine learning to predict future monthly spending.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="guidance-box">
+        <h3>How this app helps the user</h3>
+        <p>
+          The app gives practical financial feedback by showing total income,
+          total expenses, remaining budget, spending categories, safe daily
+          spending allowance, forecast trends and plain-English AI-style
+          recommendations.
+        </p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD PAGE -->
+    <section id="dashboard" class="page">
+      <div class="page-heading">
+        <h2>Dashboard</h2>
+        <p>Overview of income, expenses, savings and transaction sources.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>Total Income</span>
+          <strong id="totalIncome">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Total Expenses</span>
+          <strong id="totalExpenses">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Net Savings</span>
+          <strong id="netSavings">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Transactions</span>
+          <strong id="transactionCount">0</strong>
+        </div>
+      </div>
+
+      <div class="source-panel">
+        <h3>Data Sources</h3>
+        <div id="sourceSummary" class="source-summary"></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Spending by Category</h3>
+          <canvas id="categoryChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Monthly Spending Trend</h3>
+          <canvas id="monthlyTrendChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUDGET PAGE -->
+    <section id="budget" class="page">
+      <div class="page-heading">
+        <h2>Budget Tracker</h2>
+        <p>Add a monthly income and category budget to monitor spending.</p>
+      </div>
+
+      <form id="budgetForm" class="form-card">
+        <h3>Add Budget</h3>
+
+        <label>Month</label>
+        <input type="month" id="budgetMonth" required />
+
+        <label>Monthly Income</label>
+        <input type="number" id="monthlyIncome" step="0.01" placeholder="2200" required />
+
+        <label>Category</label>
+        <input type="text" id="budgetCategory" placeholder="Groceries" required />
+
+        <label>Budget Amount</label>
+        <input type="number" id="budgetAmount" step="0.01" placeholder="350" required />
+
+        <button type="submit">Save Budget</button>
+      </form>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>Monthly Income</span>
+          <strong id="budgetIncome">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Spent So Far</span>
+          <strong id="spentSoFar">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Remaining Money</span>
+          <strong id="remainingMoney">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Safe Daily Spending</span>
+          <strong id="safeDailySpending">£0.00</strong>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h3>Category Budgets</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Budget</th>
+                <th>Spent</th>
+                <th>Remaining</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="budgetTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYSIS PAGE -->
+    <section id="analysis" class="page">
+      <div class="page-heading">
+        <h2>Spending Analysis</h2>
+        <p>Category analysis, monthly averages and source comparison.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>Average Monthly Spending</span>
+          <strong id="averageMonthlySpending">£0.00</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Highest Spending Month</span>
+          <strong id="highestMonth">N/A</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Lowest Spending Month</span>
+          <strong id="lowestMonth">N/A</strong>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Top Spending Categories</h3>
+          <canvas id="analysisCategoryChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Monthly Spending Analysis</h3>
+          <canvas id="analysisMonthlyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <h3>Source Summary</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Transaction Count</th>
+                <th>Total Amount</th>
+              </tr>
+            </thead>
+            <tbody id="analysisSourceTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORECAST PAGE -->
+    <section id="forecast" class="page">
+      <div class="page-heading">
+        <h2>AI Spending Forecast</h2>
+        <p>Machine learning forecast using monthly spending totals.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>Next Month Prediction</span>
+          <strong id="forecastPrediction">N/A</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>MAE</span>
+          <strong id="forecastMae">N/A</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>R² Score</span>
+          <strong id="forecastR2">N/A</strong>
+        </div>
+      </div>
+
+      <div class="guidance-box">
+        <h3>Forecast Explanation</h3>
+        <p id="forecastMessage">No forecast loaded yet.</p>
+      </div>
+
+      <div class="chart-card wide-chart">
+        <h3>Actual vs Predicted Monthly Spending</h3>
+        <canvas id="forecastChart"></canvas>
+      </div>
+    </section>
+
+    <!-- INSIGHTS PAGE -->
+    <section id="insights" class="page">
+      <div class="page-heading">
+        <h2>AI Insights</h2>
+        <p>Plain-English recommendations based on your finance data.</p>
+      </div>
+
+      <div class="guidance-box">
+        <h3>Personalised Guidance</h3>
+        <p id="insightSummary">Loading insights...</p>
+      </div>
+
+      <div id="insightsList" class="insights-list"></div>
+    </section>
+
+    <!-- TRANSACTIONS PAGE -->
+    <section id="transactions" class="page">
+      <div class="page-heading">
+        <h2>Transactions</h2>
+        <p>View demo, manual and uploaded records clearly separated by source.</p>
+      </div>
+
+      <form id="transactionForm" class="form-card">
+        <h3>Add Manual Transaction</h3>
+
+        <label>Date</label>
+        <input type="date" id="transactionDate" required />
+
+        <label>Description</label>
+        <input type="text" id="transactionDescription" placeholder="Tesco groceries" required />
+
+        <label>Amount</label>
+        <input type="number" id="transactionAmount" step="0.01" required />
+
+        <label>Type</label>
+        <select id="transactionType" required>
+          <option value="expense">Expense</option>
+          <option value="income">Income</option>
+        </select>
+
+        <label>Category</label>
+        <input type="text" id="transactionCategory" placeholder="Groceries" required />
+
+        <label>Payment Method</label>
+        <input type="text" id="paymentMethod" placeholder="Debit Card" />
+
+        <button type="submit">Save Transaction</button>
+      </form>
+
+      <div class="table-card">
+        <h3>Transaction History</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Payment Method</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPLOAD CSV PAGE -->
+    <section id="upload" class="page">
+      <div class="page-heading">
+        <h2>Upload Bank CSV</h2>
+        <p>
+          Upload a CSV file and map your bank's column names into the format
+          required by the app.
+        </p>
+      </div>
+
+      <div class="guidance-box">
+        <h3>Column Mapping Help</h3>
+        <p>
+          Different banks use different column names. For example, one bank may
+          use <strong>Transaction Date</strong> while another uses
+          <strong>Date</strong>. Enter the exact column names from your CSV.
+        </p>
+      </div>
+
+      <form id="uploadForm" class="form-card">
+        <h3>Upload and Map Columns</h3>
+
+        <label>CSV File</label>
+        <input type="file" id="csvFile" accept=".csv" required />
+
+        <label>Date Column Name</label>
+        <input type="text" id="dateColumn" placeholder="Date" required />
+
+        <label>Description Column Name</label>
+        <input type="text" id="descriptionColumn" placeholder="Description" required />
+
+        <label>Amount Column Name</label>
+        <input type="text" id="amountColumn" placeholder="Amount" required />
+
+        <label>Category Column Name</label>
+        <input type="text" id="categoryColumn" placeholder="Category" required />
+
+        <label>Type Column Name</label>
+        <input type="text" id="typeColumn" placeholder="Type" />
+
+        <label>Payment Method Column Name</label>
+        <input type="text" id="paymentMethodColumn" placeholder="Payment Method" />
+
+        <button type="submit">Upload CSV</button>
+      </form>
+
+      <div id="uploadResult" class="result-box"></div>
+    </section>
+
+    <!-- AUDIT PAGE -->
+    <section id="audit" class="page">
+      <div class="page-heading">
+        <h2>Audit Log</h2>
+        <p>
+          Prototype audit trail showing manual entries, uploaded files and
+          important data actions.
+        </p>
+      </div>
+
+      <div class="table-card">
+        <h3>Recent Audit Events</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date/Time</th>
+                <th>Action</th>
+                <th>Record Type</th>
+                <th>Source</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>
+      AI Banking prototype — no real bank login, no Open Banking connection,
+      demo/manual/uploaded data only.
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
