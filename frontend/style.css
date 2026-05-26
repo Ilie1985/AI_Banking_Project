@@ -16,7 +16,7 @@ body {
 .top-header {
   background: linear-gradient(135deg, #172554, #2563eb);
   color: white;
-  padding: 28px 6%;
+  padding: 22px 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,7 +25,7 @@ body {
 
 .top-header h1 {
   margin: 0;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
 }
 
 .top-header p {
@@ -53,29 +53,33 @@ body {
 
 /* =========================
    NAVIGATION
+   Buttons wrap instead of scrolling.
 ========================= */
 
 .nav-bar {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 6%;
+  padding: 12px 4%;
   background: white;
   border-bottom: 1px solid #e5e7eb;
-  overflow-x: auto;
   position: sticky;
   top: 0;
   z-index: 10;
+  overflow-x: hidden;
 }
 
 .nav-btn {
   border: none;
   background: #eef2ff;
   color: #1e3a8a;
-  padding: 10px 14px;
+  padding: 9px 12px;
   border-radius: 999px;
   cursor: pointer;
   font-weight: 700;
   white-space: nowrap;
+  font-size: 0.92rem;
 }
 
 .nav-btn:hover {
@@ -88,7 +92,7 @@ body {
 }
 
 /* =========================
-   LAYOUT
+   MAIN LAYOUT
 ========================= */
 
 .container {
@@ -119,7 +123,7 @@ body {
 }
 
 /* =========================
-   CARDS
+   SHARED CARDS
 ========================= */
 
 .hero-card,
@@ -137,6 +141,10 @@ body {
   border: 1px solid #e5e7eb;
 }
 
+/* =========================
+   HOME PAGE
+========================= */
+
 .hero-card {
   padding: 28px;
 }
@@ -144,6 +152,10 @@ body {
 .hero-card h2 {
   margin-top: 0;
   font-size: 2rem;
+}
+
+.hero-card p {
+  line-height: 1.6;
 }
 
 .feature-grid {
@@ -162,6 +174,11 @@ body {
   color: #1d4ed8;
 }
 
+.feature-card p {
+  color: #4b5563;
+  line-height: 1.5;
+}
+
 .guidance-box {
   padding: 20px;
   margin: 20px 0;
@@ -170,6 +187,10 @@ body {
 
 .guidance-box h3 {
   margin-top: 0;
+}
+
+.guidance-box p {
+  line-height: 1.6;
 }
 
 /* =========================
@@ -200,8 +221,7 @@ body {
 }
 
 /* =========================
-   CHARTS - IMPORTANT FIX
-   This prevents Chart.js from stretching forever.
+   CHARTS
 ========================= */
 
 .chart-grid {
@@ -265,6 +285,7 @@ body {
   border: 1px solid #cbd5e1;
   border-radius: 12px;
   font-size: 1rem;
+  background: white;
 }
 
 .form-card input:focus,
@@ -318,6 +339,7 @@ td {
   padding: 12px;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
+  vertical-align: top;
 }
 
 th {
@@ -329,8 +351,51 @@ tr:hover {
   background: #f9fafb;
 }
 
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.table-header h3 {
+  margin: 0;
+}
+
+.table-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.table-actions button {
+  border: none;
+  background: #eef2ff;
+  color: #1e3a8a;
+  padding: 9px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.table-actions button:hover {
+  background: #dbeafe;
+}
+
+.table-actions button.active-small-btn {
+  background: #2563eb;
+  color: white;
+}
+
 /* =========================
-   SOURCE SUMMARY AND BADGES
+   BADGES
 ========================= */
 
 .source-panel {
@@ -355,6 +420,7 @@ tr:hover {
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.82rem;
+  white-space: nowrap;
 }
 
 .source-demo {
@@ -402,10 +468,11 @@ tr:hover {
   border-radius: 16px;
   border-left: 6px solid #2563eb;
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+  line-height: 1.5;
 }
 
 /* =========================
-   RESULT MESSAGE BOX
+   RESULT BOX
 ========================= */
 
 .result-box {
@@ -440,6 +507,13 @@ tr:hover {
    RESPONSIVE DESIGN
 ========================= */
 
+@media (max-width: 1100px) {
+  .nav-btn {
+    padding: 8px 10px;
+    font-size: 0.86rem;
+  }
+}
+
 @media (max-width: 900px) {
   .top-header {
     flex-direction: column;
@@ -450,6 +524,11 @@ tr:hover {
   .stats-grid,
   .chart-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
@@ -491,5 +570,15 @@ tr:hover {
   td {
     padding: 10px;
     font-size: 0.85rem;
+  }
+
+  .nav-bar {
+    padding: 10px 3%;
+    justify-content: flex-start;
+  }
+
+  .nav-btn {
+    padding: 8px 10px;
+    font-size: 0.82rem;
   }
 }

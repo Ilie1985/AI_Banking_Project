@@ -5,6 +5,7 @@ let monthlyTrendChart = null;
 let analysisCategoryChart = null;
 let analysisMonthlyChart = null;
 let forecastChart = null;
+let currentTransactionLimit = 5;
 
 document.addEventListener("DOMContentLoaded", () => {
   checkApiHealth();
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadAnalysis();
   loadForecast();
   loadInsights();
-  loadTransactions();
+  loadTransactions(5);
   loadAuditLog();
 
   setupBudgetForm();
@@ -38,7 +39,7 @@ function showPage(pageId, button) {
   if (pageId === "analysis") loadAnalysis();
   if (pageId === "forecast") loadForecast();
   if (pageId === "insights") loadInsights();
-  if (pageId === "transactions") loadTransactions();
+  if (pageId === "transactions") loadTransactions(currentTransactionLimit);
   if (pageId === "audit") loadAuditLog();
 }
 
@@ -108,10 +109,17 @@ async function loadDashboard() {
   try {
     const data = await apiGet("/dashboard");
 
-    document.getElementById("totalIncome").textContent = formatCurrency(data.total_income);
-    document.getElementById("totalExpenses").textContent = formatCurrency(data.total_expenses);
-    document.getElementById("netSavings").textContent = formatCurrency(data.net_savings);
-    document.getElementById("transactionCount").textContent = data.transaction_count;
+    document.getElementById("totalIncome").textContent = formatCurrency(
+      data.total_income,
+    );
+    document.getElementById("totalExpenses").textContent = formatCurrency(
+      data.total_expenses,
+    );
+    document.getElementById("netSavings").textContent = formatCurrency(
+      data.net_savings,
+    );
+    document.getElementById("transactionCount").textContent =
+      data.transaction_count;
 
     renderSourceSummary(data.source_summary || []);
     renderCategoryChart(data.spending_by_category || []);
@@ -223,10 +231,18 @@ async function loadBudget() {
   try {
     const data = await apiGet("/budget");
 
-    document.getElementById("budgetIncome").textContent = formatCurrency(data.monthly_income);
-    document.getElementById("spentSoFar").textContent = formatCurrency(data.spent_so_far);
-    document.getElementById("remainingMoney").textContent = formatCurrency(data.remaining_money);
-    document.getElementById("safeDailySpending").textContent = formatCurrency(data.safe_daily_spending);
+    document.getElementById("budgetIncome").textContent = formatCurrency(
+      data.monthly_income,
+    );
+    document.getElementById("spentSoFar").textContent = formatCurrency(
+      data.spent_so_far,
+    );
+    document.getElementById("remainingMoney").textContent = formatCurrency(
+      data.remaining_money,
+    );
+    document.getElementById("safeDailySpending").textContent = formatCurrency(
+      data.safe_daily_spending,
+    );
 
     const tableBody = document.getElementById("budgetTableBody");
     tableBody.innerHTML = "";
@@ -475,14 +491,15 @@ function setupTransactionForm() {
       amount: Number(document.getElementById("transactionAmount").value),
       transaction_type: document.getElementById("transactionType").value,
       category: document.getElementById("transactionCategory").value,
-      payment_method: document.getElementById("paymentMethod").value || "Manual",
+      payment_method:
+        document.getElementById("paymentMethod").value || "Manual",
     };
 
     try {
       await apiPost("/transactions", transaction);
       form.reset();
 
-      await loadTransactions();
+      await loadTransactions(currentTransactionLimit);
       await loadDashboard();
       await loadBudget();
       await loadAnalysis();
@@ -498,12 +515,30 @@ function setupTransactionForm() {
   });
 }
 
-async function loadTransactions() {
+async function loadTransactions(limit = 5) {
+  currentTransactionLimit = limit;
+
   try {
-    const data = await apiGet("/transactions?limit=100");
+    const data = await apiGet(`/transactions?limit=${limit}`);
 
     const tableBody = document.getElementById("transactionsTableBody");
+    const note = document.getElementById("transactionViewNote");
+    const lastFiveBtn = document.getElementById("showLastFiveBtn");
+    const showAllBtn = document.getElementById("showAllTransactionsBtn");
+
     tableBody.innerHTML = "";
+
+    if (note) {
+      note.textContent =
+        limit === 5
+          ? "Showing the last 5 transactions."
+          : "Showing all available transactions.";
+    }
+
+    if (lastFiveBtn && showAllBtn) {
+      lastFiveBtn.classList.toggle("active-small-btn", limit === 5);
+      showAllBtn.classList.toggle("active-small-btn", limit !== 5);
+    }
 
     if (!data || data.length === 0) {
       tableBody.innerHTML = `
@@ -554,11 +589,23 @@ function setupUploadForm() {
 
     formData.append("file", file);
     formData.append("date_column", document.getElementById("dateColumn").value);
-    formData.append("description_column", document.getElementById("descriptionColumn").value);
-    formData.append("amount_column", document.getElementById("amountColumn").value);
-    formData.append("category_column", document.getElementById("categoryColumn").value);
+    formData.append(
+      "description_column",
+      document.getElementById("descriptionColumn").value,
+    );
+    formData.append(
+      "amount_column",
+      document.getElementById("amountColumn").value,
+    );
+    formData.append(
+      "category_column",
+      document.getElementById("categoryColumn").value,
+    );
     formData.append("type_column", document.getElementById("typeColumn").value);
-    formData.append("payment_method_column", document.getElementById("paymentMethodColumn").value);
+    formData.append(
+      "payment_method_column",
+      document.getElementById("paymentMethodColumn").value,
+    );
 
     try {
       const response = await fetch(`${API_BASE}/upload-csv`, {
@@ -575,7 +622,7 @@ function setupUploadForm() {
 
       showUploadResult(
         `${result.message} Rows uploaded: ${result.rows_uploaded}`,
-        "success"
+        "success",
       );
 
       form.reset();
@@ -590,7 +637,7 @@ function setupUploadForm() {
     } catch (error) {
       showUploadResult(
         "Upload failed. Check that the column names exactly match your CSV headers.",
-        "error"
+        "error",
       );
 
       console.error(error);

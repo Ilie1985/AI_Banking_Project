@@ -139,16 +139,16 @@
       <form id="budgetForm" class="form-card">
         <h3>Add Budget</h3>
 
-        <label>Month</label>
+        <label for="budgetMonth">Month</label>
         <input type="month" id="budgetMonth" required />
 
-        <label>Monthly Income</label>
+        <label for="monthlyIncome">Monthly Income</label>
         <input type="number" id="monthlyIncome" step="0.01" placeholder="2200" required />
 
-        <label>Category</label>
+        <label for="budgetCategory">Category</label>
         <input type="text" id="budgetCategory" placeholder="Groceries" required />
 
-        <label>Budget Amount</label>
+        <label for="budgetAmount">Budget Amount</label>
         <input type="number" id="budgetAmount" step="0.01" placeholder="350" required />
 
         <button type="submit">Save Budget</button>
@@ -178,6 +178,7 @@
 
       <div class="table-card">
         <h3>Category Budgets</h3>
+
         <div class="table-wrapper">
           <table>
             <thead>
@@ -233,6 +234,7 @@
 
       <div class="table-card">
         <h3>Source Summary</h3>
+
         <div class="table-wrapper">
           <table>
             <thead>
@@ -308,32 +310,48 @@
       <form id="transactionForm" class="form-card">
         <h3>Add Manual Transaction</h3>
 
-        <label>Date</label>
+        <label for="transactionDate">Date</label>
         <input type="date" id="transactionDate" required />
 
-        <label>Description</label>
+        <label for="transactionDescription">Description</label>
         <input type="text" id="transactionDescription" placeholder="Tesco groceries" required />
 
-        <label>Amount</label>
+        <label for="transactionAmount">Amount</label>
         <input type="number" id="transactionAmount" step="0.01" required />
 
-        <label>Type</label>
+        <label for="transactionType">Type</label>
         <select id="transactionType" required>
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
 
-        <label>Category</label>
+        <label for="transactionCategory">Category</label>
         <input type="text" id="transactionCategory" placeholder="Groceries" required />
 
-        <label>Payment Method</label>
+        <label for="paymentMethod">Payment Method</label>
         <input type="text" id="paymentMethod" placeholder="Debit Card" />
 
         <button type="submit">Save Transaction</button>
       </form>
 
       <div class="table-card">
-        <h3>Transaction History</h3>
+        <div class="table-header">
+          <div>
+            <h3>Transaction History</h3>
+            <p id="transactionViewNote">Showing the last 5 transactions.</p>
+          </div>
+
+          <div class="table-actions">
+            <button id="showLastFiveBtn" type="button" onclick="loadTransactions(5)">
+              Last 5
+            </button>
+
+            <button id="showAllTransactionsBtn" type="button" onclick="loadTransactions(1000)">
+              Show All
+            </button>
+          </div>
+        </div>
+
         <div class="table-wrapper">
           <table>
             <thead>
@@ -375,25 +393,25 @@
       <form id="uploadForm" class="form-card">
         <h3>Upload and Map Columns</h3>
 
-        <label>CSV File</label>
+        <label for="csvFile">CSV File</label>
         <input type="file" id="csvFile" accept=".csv" required />
 
-        <label>Date Column Name</label>
+        <label for="dateColumn">Date Column Name</label>
         <input type="text" id="dateColumn" placeholder="Date" required />
 
-        <label>Description Column Name</label>
+        <label for="descriptionColumn">Description Column Name</label>
         <input type="text" id="descriptionColumn" placeholder="Description" required />
 
-        <label>Amount Column Name</label>
+        <label for="amountColumn">Amount Column Name</label>
         <input type="text" id="amountColumn" placeholder="Amount" required />
 
-        <label>Category Column Name</label>
+        <label for="categoryColumn">Category Column Name</label>
         <input type="text" id="categoryColumn" placeholder="Category" required />
 
-        <label>Type Column Name</label>
+        <label for="typeColumn">Type Column Name</label>
         <input type="text" id="typeColumn" placeholder="Type" />
 
-        <label>Payment Method Column Name</label>
+        <label for="paymentMethodColumn">Payment Method Column Name</label>
         <input type="text" id="paymentMethodColumn" placeholder="Payment Method" />
 
         <button type="submit">Upload CSV</button>
@@ -414,6 +432,7 @@
 
       <div class="table-card">
         <h3>Recent Audit Events</h3>
+
         <div class="table-wrapper">
           <table>
             <thead>
