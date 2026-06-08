@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyc
 .venv/
 venv/
 .env
@@ -16,3 +17,10 @@ backend/data/raw/*.csv
 .DS_Store
 .vscode/
 .idea/
+
+# Environment variables
+.env
+.env.local
+
+# Local frontend config generated from .env
+frontend/config.js
