@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from app.database import initialise_database
 from app.schemas import TransactionCreate, BudgetCreate
@@ -14,6 +15,8 @@ from app.services import (
     get_transactions,
     upload_csv_transactions,
     get_audit_log,
+    get_data_status,
+    switch_dataset_mode,
 )
 
 
@@ -33,6 +36,10 @@ app.add_middleware(
 )
 
 
+class DatasetModeRequest(BaseModel):
+    mode: str
+
+
 @app.on_event("startup")
 def startup_event():
     initialise_database()
@@ -44,6 +51,19 @@ def health():
         "status": "ok",
         "message": "AI Banking backend is running",
     }
+
+
+@app.get("/data-status")
+def data_status():
+    return get_data_status()
+
+
+@app.post("/dataset-mode")
+def dataset_mode(request: DatasetModeRequest):
+    try:
+        return switch_dataset_mode(request.mode)
+    except Exception as error:
+        raise HTTPException(status_code=400, detail=str(error))
 
 
 @app.get("/dashboard")
@@ -63,7 +83,10 @@ def create_new_budget(budget_data: BudgetCreate):
 
 @app.post("/transactions")
 def create_new_transaction(transaction_data: TransactionCreate):
-    return create_manual_transaction(transaction_data)
+    try:
+        return create_manual_transaction(transaction_data)
+    except Exception as error:
+        raise HTTPException(status_code=400, detail=str(error))
 
 
 @app.get("/transactions")

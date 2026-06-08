@@ -9,8 +9,10 @@ DATABASE_PATH = DATABASE_DIR / "ai_banking.sqlite3"
 
 def get_connection():
     DATABASE_DIR.mkdir(parents=True, exist_ok=True)
+
     connection = sqlite3.connect(DATABASE_PATH)
     connection.row_factory = sqlite3.Row
+
     return connection
 
 
@@ -74,6 +76,28 @@ def initialise_database():
             source TEXT,
             details TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS app_settings (
+            setting_name TEXT PRIMARY KEY,
+            setting_value TEXT NOT NULL
+        )
+        """
+    )
+
+    cursor.execute(
+        """
+        INSERT OR IGNORE INTO app_settings (
+            setting_name,
+            setting_value
+        )
+        VALUES (
+            'active_dataset',
+            'mock'
         )
         """
     )

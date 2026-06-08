@@ -5,11 +5,14 @@ let monthlyTrendChart = null;
 let analysisCategoryChart = null;
 let analysisMonthlyChart = null;
 let forecastChart = null;
+
 let currentTransactionLimit = 5;
+let currentDataMode = "mock";
 
 document.addEventListener("DOMContentLoaded", () => {
   checkApiHealth();
 
+  loadDataStatus();
   loadDashboard();
   loadBudget();
   loadAnalysis();
@@ -22,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTransactionForm();
   setupUploadForm();
 });
+
+/* ---------------- PAGE NAVIGATION ---------------- */
 
 function showPage(pageId, button) {
   const pages = document.querySelectorAll(".page");
@@ -41,7 +46,11 @@ function showPage(pageId, button) {
   if (pageId === "insights") loadInsights();
   if (pageId === "transactions") loadTransactions(currentTransactionLimit);
   if (pageId === "audit") loadAuditLog();
+
+  loadDataStatus();
 }
+
+/* ---------------- API HELPERS ---------------- */
 
 async function apiGet(endpoint) {
   const response = await fetch(`${API_BASE}${endpoint}`);
@@ -103,6 +112,86 @@ async function checkApiHealth() {
   }
 }
 
+/* ---------------- DATA MODE ---------------- */
+
+async function loadDataStatus() {
+  try {
+    const data = await apiGet("/data-status");
+
+    currentDataMode = data.active_dataset || "mock";
+
+    document.getElementById("activeDatasetMode").textContent = currentDataMode;
+    document.getElementById("dataModeMessage").textContent =
+      data.message || "Data mode loaded.";
+
+    document.getElementById("mockCount").textContent =
+      data.mock_transactions ?? 0;
+
+    document.getElementById("uploadedCount").textContent =
+      data.uploaded_transactions ?? 0;
+
+    document.getElementById("manualCount").textContent =
+      data.manual_transactions ?? 0;
+
+    updateDataModeButtons(currentDataMode);
+  } catch (error) {
+    console.error("Data status error:", error);
+
+    document.getElementById("activeDatasetMode").textContent = "error";
+    document.getElementById("dataModeMessage").textContent =
+      "Could not load data mode. Check that the backend is running.";
+  }
+}
+
+function updateDataModeButtons(mode) {
+  const buttons = {
+    mock: document.getElementById("modeMockBtn"),
+    uploaded: document.getElementById("modeUploadedBtn"),
+    manual: document.getElementById("modeManualBtn"),
+    combined: document.getElementById("modeCombinedBtn"),
+  };
+
+  Object.keys(buttons).forEach((key) => {
+    if (buttons[key]) {
+      buttons[key].classList.toggle("active-data-mode", key === mode);
+    }
+  });
+}
+
+async function setDataMode(mode) {
+  try {
+    const result = await apiPost("/dataset-mode", { mode });
+
+    await refreshAllData();
+
+    if (result.changed === false) {
+      showInlineMessage(result.message, "warning");
+    } else {
+      showInlineMessage(
+        result.message || `Data mode changed to ${mode}.`,
+        "success",
+      );
+    }
+  } catch (error) {
+    showInlineMessage(
+      "Could not switch data mode. Please check that the backend is running.",
+      "error",
+    );
+    console.error(error);
+  }
+}
+
+async function refreshAllData() {
+  await loadDataStatus();
+  await loadDashboard();
+  await loadBudget();
+  await loadAnalysis();
+  await loadForecast();
+  await loadInsights();
+  await loadTransactions(currentTransactionLimit);
+  await loadAuditLog();
+}
+
 /* ---------------- DASHBOARD ---------------- */
 
 async function loadDashboard() {
@@ -134,7 +223,8 @@ function renderSourceSummary(sourceData) {
   container.innerHTML = "";
 
   if (sourceData.length === 0) {
-    container.innerHTML = "<p>No source data available yet.</p>";
+    container.innerHTML =
+      "<p>No source data available for the selected mode.</p>";
     return;
   }
 
@@ -167,6 +257,7 @@ function renderCategoryChart(data) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 200,
     },
   });
 }
@@ -193,6 +284,7 @@ function renderMonthlyTrendChart(data) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 200,
     },
   });
 }
@@ -215,10 +307,7 @@ function setupBudgetForm() {
     try {
       await apiPost("/budget", budget);
       form.reset();
-      await loadBudget();
-      await loadDashboard();
-      await loadInsights();
-      await loadAuditLog();
+      await refreshAllData();
       alert("Budget saved successfully.");
     } catch (error) {
       alert("Could not save budget. Check your backend and form values.");
@@ -324,6 +413,7 @@ function renderAnalysisCategoryChart(data) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 200,
       indexAxis: "y",
     },
   });
@@ -351,6 +441,7 @@ function renderAnalysisMonthlyChart(data) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 200,
     },
   });
 }
@@ -362,7 +453,7 @@ function renderAnalysisSourceTable(data) {
   if (data.length === 0) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="3">No source summary available.</td>
+        <td colspan="3">No source summary available for the selected mode.</td>
       </tr>
     `;
     return;
@@ -438,6 +529,7 @@ function renderForecastChart(data) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 200,
       spanGaps: true,
     },
   });
@@ -450,7 +542,7 @@ async function loadInsights() {
     const data = await apiGet("/insights");
 
     document.getElementById("insightSummary").textContent =
-      data.summary || "Insights generated from your available data.";
+      data.summary || "Insights generated from your selected data mode.";
 
     const container = document.getElementById("insightsList");
     container.innerHTML = "";
@@ -499,17 +591,17 @@ function setupTransactionForm() {
       await apiPost("/transactions", transaction);
       form.reset();
 
-      await loadTransactions(currentTransactionLimit);
-      await loadDashboard();
-      await loadBudget();
-      await loadAnalysis();
-      await loadForecast();
-      await loadInsights();
-      await loadAuditLog();
+      await refreshAllData();
 
-      alert("Transaction saved successfully.");
+      showInlineMessage(
+        "Transaction saved successfully. It is now available in Manual Data and Combined Data.",
+        "success",
+      );
     } catch (error) {
-      alert("Could not save transaction.");
+      showInlineMessage(
+        "Could not save transaction. Please check the form and try again.",
+        "error",
+      );
       console.error(error);
     }
   });
@@ -531,8 +623,8 @@ async function loadTransactions(limit = 5) {
     if (note) {
       note.textContent =
         limit === 5
-          ? "Showing the last 5 transactions."
-          : "Showing all available transactions.";
+          ? `Showing the last 5 transactions for ${currentDataMode} mode.`
+          : `Showing all available transactions for ${currentDataMode} mode.`;
     }
 
     if (lastFiveBtn && showAllBtn) {
@@ -543,7 +635,7 @@ async function loadTransactions(limit = 5) {
     if (!data || data.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="7">No transactions available.</td>
+          <td colspan="7">No transactions available for the selected data mode.</td>
         </tr>
       `;
       return;
@@ -626,14 +718,7 @@ function setupUploadForm() {
       );
 
       form.reset();
-
-      await loadTransactions();
-      await loadDashboard();
-      await loadBudget();
-      await loadAnalysis();
-      await loadForecast();
-      await loadInsights();
-      await loadAuditLog();
+      await refreshAllData();
     } catch (error) {
       showUploadResult(
         "Upload failed. Check that the column names exactly match your CSV headers.",
@@ -687,16 +772,43 @@ async function loadAuditLog() {
   }
 }
 
+function showInlineMessage(message, type = "success") {
+  const messageBox = document.getElementById("dataModeMessage");
+
+  if (!messageBox) {
+    return;
+  }
+
+  messageBox.textContent = message;
+
+  messageBox.classList.remove(
+    "success-message",
+    "warning-message",
+    "error-message",
+  );
+
+  if (type === "success") {
+    messageBox.classList.add("success-message");
+  } else if (type === "warning") {
+    messageBox.classList.add("warning-message");
+  } else if (type === "error") {
+    messageBox.classList.add("error-message");
+  }
+}
+
 /* ---------------- BADGES ---------------- */
 
 function getSourceClass(source) {
   if (source === "manual") return "source-manual";
   if (source === "uploaded") return "source-uploaded";
+  if (source === "mock") return "source-mock";
+  if (source === "demo") return "source-demo";
+  if (source === "combined") return "source-combined";
   return "source-demo";
 }
 
 function renderSourceBadge(source) {
-  const safeSource = source || "demo";
+  const safeSource = source || "mock";
   return `<span class="source-badge ${getSourceClass(safeSource)}">${safeSource}</span>`;
 }
 
