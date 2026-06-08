@@ -869,3 +869,7 @@ tr:hover {
     flex-direction: column;
   }
 }
+
+.hidden-api-status {
+  display: none !important;
+}

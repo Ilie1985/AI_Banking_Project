@@ -16,6 +16,27 @@ def get_connection():
     return connection
 
 
+def column_exists(cursor, table_name, column_name):
+    cursor.execute(f"PRAGMA table_info({table_name})")
+    columns = cursor.fetchall()
+
+    for column in columns:
+        if column["name"] == column_name:
+            return True
+
+    return False
+
+
+def add_column_if_missing(cursor, table_name, column_name, column_definition):
+    if not column_exists(cursor, table_name, column_name):
+        cursor.execute(
+            f"""
+            ALTER TABLE {table_name}
+            ADD COLUMN {column_name} {column_definition}
+            """
+        )
+
+
 def initialise_database():
     connection = get_connection()
     cursor = connection.cursor()
@@ -24,6 +45,7 @@ def initialise_database():
         """
         CREATE TABLE IF NOT EXISTS manual_transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT,
             date TEXT NOT NULL,
             description TEXT NOT NULL,
             amount REAL NOT NULL,
@@ -40,6 +62,7 @@ def initialise_database():
         """
         CREATE TABLE IF NOT EXISTS uploaded_transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT,
             date TEXT NOT NULL,
             description TEXT NOT NULL,
             amount REAL NOT NULL,
@@ -56,6 +79,7 @@ def initialise_database():
         """
         CREATE TABLE IF NOT EXISTS budgets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT,
             month TEXT NOT NULL,
             monthly_income REAL NOT NULL,
             category TEXT NOT NULL,
@@ -70,6 +94,7 @@ def initialise_database():
         """
         CREATE TABLE IF NOT EXISTS audit_log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT,
             action TEXT NOT NULL,
             record_type TEXT NOT NULL,
             record_id INTEGER,
@@ -89,39 +114,40 @@ def initialise_database():
         """
     )
 
-    cursor.execute(
-        """
-        INSERT OR IGNORE INTO app_settings (
-            setting_name,
-            setting_value
-        )
-        VALUES (
-            'active_dataset',
-            'mock'
-        )
-        """
-    )
+    # These ALTER statements make the update safe if your old database already exists.
+    add_column_if_missing(cursor, "manual_transactions", "user_id", "TEXT")
+    add_column_if_missing(cursor, "uploaded_transactions", "user_id", "TEXT")
+    add_column_if_missing(cursor, "budgets", "user_id", "TEXT")
+    add_column_if_missing(cursor, "audit_log", "user_id", "TEXT")
 
     connection.commit()
     connection.close()
 
 
-def add_audit_log(action, record_type, record_id=None, source=None, details=None):
+def add_audit_log(
+    action,
+    record_type,
+    user_id,
+    record_id=None,
+    source=None,
+    details=None,
+):
     connection = get_connection()
     cursor = connection.cursor()
 
     cursor.execute(
         """
         INSERT INTO audit_log (
+            user_id,
             action,
             record_type,
             record_id,
             source,
             details
         )
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
         """,
-        (action, record_type, record_id, source, details),
+        (user_id, action, record_type, record_id, source, details),
     )
 
     connection.commit()

@@ -1,7 +1,6 @@
 const API_BASE = "http://127.0.0.1:8000";
 
 const SUPABASE_URL = window.APP_CONFIG?.SUPABASE_URL || "";
-
 const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY || "";
 
 let supabaseClient = null;
@@ -30,8 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     await initialiseAuth();
   } else {
     showAuthMessage(
-      "Supabase is not configured yet. Add your Supabase URL and anon key in app.js.",
-      "error",
+      "Supabase is not configured yet. Add your Supabase URL and anon key in .env, then run python generate_config.py.",
+      "error"
     );
     showLoggedOutState();
   }
@@ -40,13 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 /* ---------------- SUPABASE AUTH ---------------- */
 
 function initialiseSupabase() {
-  const urlIsMissing =
-    SUPABASE_URL === "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE" ||
-    SUPABASE_URL.trim() === "";
-
-  const keyIsMissing =
-    SUPABASE_ANON_KEY === "PASTE_YOUR_SUPABASE_ANON_KEY_HERE" ||
-    SUPABASE_ANON_KEY.trim() === "";
+  const urlIsMissing = SUPABASE_URL.trim() === "";
+  const keyIsMissing = SUPABASE_ANON_KEY.trim() === "";
 
   if (urlIsMissing || keyIsMissing) {
     supabaseClient = null;
@@ -145,14 +139,11 @@ function setupAuthForms() {
       signupForm.reset();
 
       if (data.user && data.session) {
-        showAuthMessage(
-          "Account created and logged in successfully.",
-          "success",
-        );
+        showAuthMessage("Account created and logged in successfully.", "success");
       } else {
         showAuthMessage(
           "Account created. Please check your email to confirm your account, then log in.",
-          "success",
+          "success"
         );
       }
     } catch (error) {
@@ -266,8 +257,29 @@ function showPage(pageId, button) {
 
 /* ---------------- API HELPERS ---------------- */
 
+async function getAuthHeaders() {
+  if (!supabaseClient) {
+    throw new Error("Supabase is not configured.");
+  }
+
+  const { data, error } = await supabaseClient.auth.getSession();
+
+  if (error || !data.session) {
+    throw new Error("You must be logged in to use this feature.");
+  }
+
+  return {
+    Authorization: `Bearer ${data.session.access_token}`,
+  };
+}
+
 async function apiGet(endpoint) {
-  const response = await fetch(`${API_BASE}${endpoint}`);
+  const headers = await getAuthHeaders();
+
+  const response = await fetch(`${API_BASE}${endpoint}`, {
+    method: "GET",
+    headers,
+  });
 
   if (!response.ok) {
     throw new Error(`API error: ${response.status}`);
@@ -277,9 +289,12 @@ async function apiGet(endpoint) {
 }
 
 async function apiPost(endpoint, data) {
+  const authHeaders = await getAuthHeaders();
+
   const response = await fetch(`${API_BASE}${endpoint}`, {
     method: "POST",
     headers: {
+      ...authHeaders,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
@@ -293,20 +308,12 @@ async function apiPost(endpoint, data) {
   return response.json();
 }
 
-function formatCurrency(value) {
-  const number = Number(value || 0);
-
-  return number.toLocaleString("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  });
-}
-
 async function checkApiHealth() {
   const statusBox = document.getElementById("apiStatus");
 
   try {
-    const data = await apiGet("/health");
+    const response = await fetch(`${API_BASE}/health`);
+    const data = await response.json();
 
     statusBox.textContent = data.message || "API online";
     statusBox.classList.add("online");
@@ -316,6 +323,15 @@ async function checkApiHealth() {
     statusBox.classList.add("offline");
     statusBox.classList.remove("online");
   }
+}
+
+function formatCurrency(value) {
+  const number = Number(value || 0);
+
+  return number.toLocaleString("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  });
 }
 
 /* ---------------- DATA MODE ---------------- */
@@ -345,7 +361,7 @@ async function loadDataStatus() {
 
     document.getElementById("activeDatasetMode").textContent = "error";
     document.getElementById("dataModeMessage").textContent =
-      "Could not load data mode. Check that the backend is running.";
+      "Could not load data mode. Please log in again or check the backend.";
   }
 }
 
@@ -375,13 +391,13 @@ async function setDataMode(mode) {
     } else {
       showInlineMessage(
         result.message || `Data mode changed to ${mode}.`,
-        "success",
+        "success"
       );
     }
   } catch (error) {
     showInlineMessage(
-      "Could not switch data mode. Please check that the backend is running.",
-      "error",
+      "Could not switch data mode. Please check that you are logged in and the backend is running.",
+      "error"
     );
     console.error(error);
   }
@@ -405,13 +421,13 @@ async function loadDashboard() {
     const data = await apiGet("/dashboard");
 
     document.getElementById("totalIncome").textContent = formatCurrency(
-      data.total_income,
+      data.total_income
     );
     document.getElementById("totalExpenses").textContent = formatCurrency(
-      data.total_expenses,
+      data.total_expenses
     );
     document.getElementById("netSavings").textContent = formatCurrency(
-      data.net_savings,
+      data.net_savings
     );
     document.getElementById("transactionCount").textContent =
       data.transaction_count;
@@ -514,11 +530,11 @@ function setupBudgetForm() {
       await apiPost("/budget", budget);
       form.reset();
       await refreshAllData();
-      showInlineMessage("Budget saved successfully.", "success");
+      showInlineMessage("Budget saved successfully for your account.", "success");
     } catch (error) {
       showInlineMessage(
         "Could not save budget. Please check your form values.",
-        "error",
+        "error"
       );
       console.error(error);
     }
@@ -530,16 +546,16 @@ async function loadBudget() {
     const data = await apiGet("/budget");
 
     document.getElementById("budgetIncome").textContent = formatCurrency(
-      data.monthly_income,
+      data.monthly_income
     );
     document.getElementById("spentSoFar").textContent = formatCurrency(
-      data.spent_so_far,
+      data.spent_so_far
     );
     document.getElementById("remainingMoney").textContent = formatCurrency(
-      data.remaining_money,
+      data.remaining_money
     );
     document.getElementById("safeDailySpending").textContent = formatCurrency(
-      data.safe_daily_spending,
+      data.safe_daily_spending
     );
 
     const tableBody = document.getElementById("budgetTableBody");
@@ -803,13 +819,13 @@ function setupTransactionForm() {
       await refreshAllData();
 
       showInlineMessage(
-        "Transaction saved successfully. It is now available in Manual Data and Combined Data.",
-        "success",
+        "Transaction saved successfully for your account.",
+        "success"
       );
     } catch (error) {
       showInlineMessage(
         "Could not save transaction. Please check the form and try again.",
-        "error",
+        "error"
       );
       console.error(error);
     }
@@ -892,25 +908,30 @@ function setupUploadForm() {
     formData.append("date_column", document.getElementById("dateColumn").value);
     formData.append(
       "description_column",
-      document.getElementById("descriptionColumn").value,
+      document.getElementById("descriptionColumn").value
     );
     formData.append(
       "amount_column",
-      document.getElementById("amountColumn").value,
+      document.getElementById("amountColumn").value
     );
     formData.append(
       "category_column",
-      document.getElementById("categoryColumn").value,
+      document.getElementById("categoryColumn").value
     );
     formData.append("type_column", document.getElementById("typeColumn").value);
     formData.append(
       "payment_method_column",
-      document.getElementById("paymentMethodColumn").value,
+      document.getElementById("paymentMethodColumn").value
     );
 
     try {
+      const authHeaders = await getAuthHeaders();
+
       const response = await fetch(`${API_BASE}/upload-csv`, {
         method: "POST",
+        headers: {
+          ...authHeaders,
+        },
         body: formData,
       });
 
@@ -923,7 +944,7 @@ function setupUploadForm() {
 
       showUploadResult(
         `${result.message} Rows uploaded: ${result.rows_uploaded}`,
-        "success",
+        "success"
       );
 
       form.reset();
@@ -931,7 +952,7 @@ function setupUploadForm() {
     } catch (error) {
       showUploadResult(
         "Upload failed. Check that the column names exactly match your CSV headers.",
-        "error",
+        "error"
       );
 
       console.error(error);
@@ -995,7 +1016,7 @@ function showInlineMessage(message, type = "success") {
   messageBox.classList.remove(
     "success-message",
     "warning-message",
-    "error-message",
+    "error-message"
   );
 
   if (type === "success") {
