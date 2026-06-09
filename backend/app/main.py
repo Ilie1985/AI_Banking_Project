@@ -29,6 +29,14 @@ ROOT_DIR = Path(__file__).resolve().parents[2]
 ENV_PATH = ROOT_DIR / ".env"
 
 
+def clean_env_value(value):
+    value = value.strip()
+    value = value.strip('"')
+    value = value.strip("'")
+    value = value.rstrip(";")
+    return value.strip()
+
+
 def read_env_value(key):
     if not ENV_PATH.exists():
         return None
@@ -46,7 +54,7 @@ def read_env_value(key):
             env_key, env_value = line.split("=", 1)
 
             if env_key.strip() == key:
-                return env_value.strip()
+                return clean_env_value(env_value)
 
     return None
 
@@ -83,6 +91,12 @@ def verify_supabase_token(access_token):
                 "Supabase is not configured on the backend. "
                 "Check SUPABASE_URL and SUPABASE_ANON_KEY in your .env file."
             ),
+        )
+
+    if not SUPABASE_URL.startswith("https://"):
+        raise HTTPException(
+            status_code=500,
+            detail="SUPABASE_URL must start with https://",
         )
 
     request = urllib.request.Request(

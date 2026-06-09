@@ -1,127 +1,227 @@
-import sqlite3
+import json
+import urllib.error
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATABASE_DIR = BASE_DIR / "database"
-DATABASE_PATH = DATABASE_DIR / "ai_banking.sqlite3"
+ROOT_DIR = Path(__file__).resolve().parents[2]
+ENV_PATH = ROOT_DIR / ".env"
 
 
-def get_connection():
-    DATABASE_DIR.mkdir(parents=True, exist_ok=True)
+def read_env_value(key):
+    if not ENV_PATH.exists():
+        return None
 
-    connection = sqlite3.connect(DATABASE_PATH)
-    connection.row_factory = sqlite3.Row
+    with ENV_PATH.open("r", encoding="utf-8") as file:
+        for line in file:
+            line = line.strip()
 
-    return connection
+            if not line or line.startswith("#"):
+                continue
+
+            if "=" not in line:
+                continue
+
+            env_key, env_value = line.split("=", 1)
+
+            if env_key.strip() == key:
+                return clean_env_value(env_value)
+
+    return None
 
 
-def column_exists(cursor, table_name, column_name):
-    cursor.execute(f"PRAGMA table_info({table_name})")
-    columns = cursor.fetchall()
-
-    for column in columns:
-        if column["name"] == column_name:
-            return True
-
-    return False
+def clean_env_value(value):
+    value = value.strip()
+    value = value.strip('"')
+    value = value.strip("'")
+    value = value.rstrip(";")
+    return value.strip()
 
 
-def add_column_if_missing(cursor, table_name, column_name, column_definition):
-    if not column_exists(cursor, table_name, column_name):
-        cursor.execute(
-            f"""
-            ALTER TABLE {table_name}
-            ADD COLUMN {column_name} {column_definition}
-            """
-        )
+SUPABASE_URL = read_env_value("SUPABASE_URL")
+SUPABASE_SERVICE_ROLE_KEY = read_env_value("SUPABASE_SERVICE_ROLE_KEY")
+
+
+def check_supabase_config():
+    if not SUPABASE_URL:
+        raise ValueError("SUPABASE_URL is missing from .env")
+
+    if not SUPABASE_URL.startswith("https://"):
+        raise ValueError("SUPABASE_URL must start with https://")
+
+    if not SUPABASE_URL.endswith(".supabase.co"):
+        raise ValueError("SUPABASE_URL must end with .supabase.co")
+
+    if not SUPABASE_SERVICE_ROLE_KEY:
+        raise ValueError("SUPABASE_SERVICE_ROLE_KEY is missing from .env")
 
 
 def initialise_database():
-    connection = get_connection()
-    cursor = connection.cursor()
+    check_supabase_config()
 
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS manual_transactions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            date TEXT NOT NULL,
-            description TEXT NOT NULL,
-            amount REAL NOT NULL,
-            transaction_type TEXT NOT NULL,
-            category TEXT NOT NULL,
-            payment_method TEXT DEFAULT 'Manual',
-            source TEXT DEFAULT 'manual',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """
+
+def build_query(params):
+    if not params:
+        return ""
+
+    return "?" + urllib.parse.urlencode(params)
+
+
+def supabase_request(method, table_name, params=None, payload=None):
+    check_supabase_config()
+
+    url = f"{SUPABASE_URL}/rest/v1/{table_name}{build_query(params)}"
+
+    headers = {
+        "apikey": SUPABASE_SERVICE_ROLE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Prefer": "return=representation",
+    }
+
+    data = None
+
+    if payload is not None:
+      data = json.dumps(payload).encode("utf-8")
+
+    request = urllib.request.Request(
+        url=url,
+        data=data,
+        headers=headers,
+        method=method,
     )
 
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS uploaded_transactions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            date TEXT NOT NULL,
-            description TEXT NOT NULL,
-            amount REAL NOT NULL,
-            transaction_type TEXT NOT NULL,
-            category TEXT NOT NULL,
-            payment_method TEXT DEFAULT 'Uploaded CSV',
-            source TEXT DEFAULT 'uploaded',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            response_body = response.read().decode("utf-8")
+
+            if not response_body:
+                return []
+
+            return json.loads(response_body)
+
+    except urllib.error.HTTPError as error:
+        error_body = error.read().decode("utf-8")
+        raise ValueError(
+            f"Supabase request failed: {error.code} {error.reason} {error_body}"
         )
-        """
+
+    except Exception as error:
+        raise ValueError(f"Supabase request failed: {str(error)}")
+
+
+def select_rows(
+    table_name,
+    filters=None,
+    columns="*",
+    order=None,
+    limit=None,
+):
+    params = {
+        "select": columns,
+    }
+
+    if filters:
+        for key, value in filters.items():
+            params[key] = f"eq.{value}"
+
+    if order:
+        params["order"] = order
+
+    if limit:
+        params["limit"] = str(limit)
+
+    return supabase_request(
+        method="GET",
+        table_name=table_name,
+        params=params,
     )
 
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS budgets (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            month TEXT NOT NULL,
-            monthly_income REAL NOT NULL,
-            category TEXT NOT NULL,
-            budget_amount REAL NOT NULL,
-            source TEXT DEFAULT 'manual',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """
+
+def insert_row(table_name, row):
+    result = supabase_request(
+        method="POST",
+        table_name=table_name,
+        payload=row,
     )
 
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS audit_log (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            action TEXT NOT NULL,
-            record_type TEXT NOT NULL,
-            record_id INTEGER,
-            source TEXT,
-            details TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """
+    if result:
+        return result[0]
+
+    return None
+
+
+def insert_rows(table_name, rows):
+    if not rows:
+        return []
+
+    return supabase_request(
+        method="POST",
+        table_name=table_name,
+        payload=rows,
     )
 
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS app_settings (
-            setting_name TEXT PRIMARY KEY,
-            setting_value TEXT NOT NULL
-        )
-        """
+
+def delete_rows(table_name, filters):
+    params = {}
+
+    for key, value in filters.items():
+        params[key] = f"eq.{value}"
+
+    return supabase_request(
+        method="DELETE",
+        table_name=table_name,
+        params=params,
     )
 
-    # These ALTER statements make the update safe if your old database already exists.
-    add_column_if_missing(cursor, "manual_transactions", "user_id", "TEXT")
-    add_column_if_missing(cursor, "uploaded_transactions", "user_id", "TEXT")
-    add_column_if_missing(cursor, "budgets", "user_id", "TEXT")
-    add_column_if_missing(cursor, "audit_log", "user_id", "TEXT")
 
-    connection.commit()
-    connection.close()
+def upsert_row(table_name, row, conflict_column):
+    params = {
+        "on_conflict": conflict_column,
+    }
+
+    check_supabase_config()
+
+    url = f"{SUPABASE_URL}/rest/v1/{table_name}{build_query(params)}"
+
+    headers = {
+        "apikey": SUPABASE_SERVICE_ROLE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Prefer": "resolution=merge-duplicates,return=representation",
+    }
+
+    data = json.dumps(row).encode("utf-8")
+
+    request = urllib.request.Request(
+        url=url,
+        data=data,
+        headers=headers,
+        method="POST",
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            response_body = response.read().decode("utf-8")
+
+            if not response_body:
+                return None
+
+            result = json.loads(response_body)
+
+            if result:
+                return result[0]
+
+            return None
+
+    except urllib.error.HTTPError as error:
+        error_body = error.read().decode("utf-8")
+        raise ValueError(
+            f"Supabase upsert failed: {error.code} {error.reason} {error_body}"
+        )
 
 
 def add_audit_log(
@@ -132,23 +232,13 @@ def add_audit_log(
     source=None,
     details=None,
 ):
-    connection = get_connection()
-    cursor = connection.cursor()
+    row = {
+        "user_id": user_id,
+        "action": action,
+        "record_type": record_type,
+        "record_id": record_id,
+        "source": source,
+        "details": details,
+    }
 
-    cursor.execute(
-        """
-        INSERT INTO audit_log (
-            user_id,
-            action,
-            record_type,
-            record_id,
-            source,
-            details
-        )
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (user_id, action, record_type, record_id, source, details),
-    )
-
-    connection.commit()
-    connection.close()
+    insert_row("audit_log", row)

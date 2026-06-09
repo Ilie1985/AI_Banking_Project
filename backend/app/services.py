@@ -6,7 +6,14 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, r2_score
 
-from app.database import get_connection, add_audit_log
+from app.database import (
+    add_audit_log,
+    delete_rows,
+    insert_row,
+    insert_rows,
+    select_rows,
+    upsert_row,
+)
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +32,6 @@ TRANSACTION_COLUMNS = [
     "source",
 ]
 
-
-# -----------------------------
-# Cleaning helper functions
-# -----------------------------
 
 def standardise_transaction_type(value, amount=None):
     value = str(value).strip().lower()
@@ -93,10 +96,6 @@ def clean_date(value):
     return converted.strftime("%Y-%m-%d")
 
 
-# -----------------------------
-# Dataset mode functions
-# -----------------------------
-
 def get_active_dataset_setting_name(user_id):
     return f"active_dataset:{user_id}"
 
@@ -104,23 +103,15 @@ def get_active_dataset_setting_name(user_id):
 def get_active_dataset_mode(user_id):
     setting_name = get_active_dataset_setting_name(user_id)
 
-    connection = get_connection()
+    rows = select_rows(
+        table_name="app_settings",
+        filters={"setting_name": setting_name},
+    )
 
-    row = connection.execute(
-        """
-        SELECT setting_value
-        FROM app_settings
-        WHERE setting_name = ?
-        """,
-        (setting_name,),
-    ).fetchone()
-
-    connection.close()
-
-    if row is None:
+    if not rows:
         return "mock"
 
-    return row["setting_value"]
+    return rows[0]["setting_value"]
 
 
 def set_active_dataset_mode(mode, user_id):
@@ -133,24 +124,15 @@ def set_active_dataset_mode(mode, user_id):
 
     setting_name = get_active_dataset_setting_name(user_id)
 
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    cursor.execute(
-        """
-        INSERT INTO app_settings (
-            setting_name,
-            setting_value
-        )
-        VALUES (?, ?)
-        ON CONFLICT(setting_name)
-        DO UPDATE SET setting_value = excluded.setting_value
-        """,
-        (setting_name, mode),
+    upsert_row(
+        table_name="app_settings",
+        row={
+            "setting_name": setting_name,
+            "user_id": user_id,
+            "setting_value": mode,
+        },
+        conflict_column="setting_name",
     )
-
-    connection.commit()
-    connection.close()
 
     add_audit_log(
         action="SWITCH",
@@ -167,92 +149,6 @@ def set_active_dataset_mode(mode, user_id):
         "changed": True,
     }
 
-
-def count_mock_transactions():
-    mock_df = load_demo_transactions()
-    return int(len(mock_df))
-
-
-def count_uploaded_transactions(user_id):
-    connection = get_connection()
-
-    row = connection.execute(
-        """
-        SELECT COUNT(*) AS total
-        FROM uploaded_transactions
-        WHERE user_id = ?
-        """,
-        (user_id,),
-    ).fetchone()
-
-    connection.close()
-
-    return int(row["total"])
-
-
-def count_manual_transactions(user_id):
-    connection = get_connection()
-
-    row = connection.execute(
-        """
-        SELECT COUNT(*) AS total
-        FROM manual_transactions
-        WHERE user_id = ?
-        """,
-        (user_id,),
-    ).fetchone()
-
-    connection.close()
-
-    return int(row["total"])
-
-
-def switch_dataset_mode(mode, user_id):
-    mode = str(mode).strip().lower()
-
-    if mode == "uploaded" and count_uploaded_transactions(user_id) == 0:
-        return {
-            "message": "No uploaded CSV data is available for your account. Upload a CSV before using uploaded mode.",
-            "active_dataset": get_active_dataset_mode(user_id),
-            "changed": False,
-        }
-
-    if mode == "manual" and count_manual_transactions(user_id) == 0:
-        return {
-            "message": "No manual transactions are available for your account. Add manual transactions before using manual mode.",
-            "active_dataset": get_active_dataset_mode(user_id),
-            "changed": False,
-        }
-
-    return set_active_dataset_mode(mode, user_id)
-
-
-def get_data_status(user_id):
-    active_dataset = get_active_dataset_mode(user_id)
-    mock_count = count_mock_transactions()
-    uploaded_count = count_uploaded_transactions(user_id)
-    manual_count = count_manual_transactions(user_id)
-
-    messages = {
-        "mock": "The app is using the original mock/demo dataset.",
-        "uploaded": "The app is using your uploaded CSV data only.",
-        "manual": "The app is using your manually added transactions only.",
-        "combined": "The app is using mock data, your uploaded CSV data and your manual transactions together.",
-    }
-
-    return {
-        "active_dataset": active_dataset,
-        "mock_transactions": mock_count,
-        "uploaded_transactions": uploaded_count,
-        "manual_transactions": manual_count,
-        "available_modes": ["mock", "uploaded", "manual", "combined"],
-        "message": messages.get(active_dataset, "Unknown data mode."),
-    }
-
-
-# -----------------------------
-# Load transaction data
-# -----------------------------
 
 def load_demo_transactions():
     cleaned_file = CLEANED_DIR / "personal_transactions_cleaned.csv"
@@ -304,10 +200,15 @@ def load_demo_transactions():
     df = df.dropna(subset=["date"])
 
     df["amount"] = df["amount"].apply(clean_amount)
+
     df["transaction_type"] = df.apply(
-        lambda row: standardise_transaction_type(row["transaction_type"], row["amount"]),
+        lambda row: standardise_transaction_type(
+            row["transaction_type"],
+            row["amount"],
+        ),
         axis=1,
     )
+
     df["category"] = df["category"].apply(clean_category)
     df["description"] = df["description"].apply(clean_description)
     df["payment_method"] = df["payment_method"].fillna("Mock data")
@@ -317,59 +218,97 @@ def load_demo_transactions():
 
 
 def load_manual_transactions(user_id):
-    connection = get_connection()
-
-    df = pd.read_sql_query(
-        """
-        SELECT
-            date,
-            description,
-            amount,
-            transaction_type,
-            category,
-            payment_method,
-            source
-        FROM manual_transactions
-        WHERE user_id = ?
-        """,
-        connection,
-        params=(user_id,),
+    rows = select_rows(
+        table_name="manual_transactions",
+        filters={"user_id": user_id},
+        order="date.desc",
     )
 
-    connection.close()
-
-    if df.empty:
+    if not rows:
         return pd.DataFrame(columns=TRANSACTION_COLUMNS)
 
-    return df
+    df = pd.DataFrame(rows)
+
+    return df[TRANSACTION_COLUMNS]
 
 
 def load_uploaded_transactions(user_id):
-    connection = get_connection()
-
-    df = pd.read_sql_query(
-        """
-        SELECT
-            date,
-            description,
-            amount,
-            transaction_type,
-            category,
-            payment_method,
-            source
-        FROM uploaded_transactions
-        WHERE user_id = ?
-        """,
-        connection,
-        params=(user_id,),
+    rows = select_rows(
+        table_name="uploaded_transactions",
+        filters={"user_id": user_id},
+        order="date.desc",
     )
 
-    connection.close()
-
-    if df.empty:
+    if not rows:
         return pd.DataFrame(columns=TRANSACTION_COLUMNS)
 
-    return df
+    df = pd.DataFrame(rows)
+
+    return df[TRANSACTION_COLUMNS]
+
+
+def count_mock_transactions():
+    return int(len(load_demo_transactions()))
+
+
+def count_uploaded_transactions(user_id):
+    rows = select_rows(
+        table_name="uploaded_transactions",
+        filters={"user_id": user_id},
+        columns="id",
+    )
+
+    return int(len(rows))
+
+
+def count_manual_transactions(user_id):
+    rows = select_rows(
+        table_name="manual_transactions",
+        filters={"user_id": user_id},
+        columns="id",
+    )
+
+    return int(len(rows))
+
+
+def switch_dataset_mode(mode, user_id):
+    mode = str(mode).strip().lower()
+
+    if mode == "uploaded" and count_uploaded_transactions(user_id) == 0:
+        return {
+            "message": "No uploaded CSV data is available for your account. Upload a CSV before using uploaded mode.",
+            "active_dataset": get_active_dataset_mode(user_id),
+            "changed": False,
+        }
+
+    if mode == "manual" and count_manual_transactions(user_id) == 0:
+        return {
+            "message": "No manual transactions are available for your account. Add manual transactions before using manual mode.",
+            "active_dataset": get_active_dataset_mode(user_id),
+            "changed": False,
+        }
+
+    return set_active_dataset_mode(mode, user_id)
+
+
+def get_data_status(user_id):
+    active_dataset = get_active_dataset_mode(user_id)
+
+    messages = {
+        "mock": "The app is using the original mock/demo dataset.",
+        "uploaded": "The app is using your uploaded CSV data only.",
+        "manual": "The app is using your manually added transactions only.",
+        "combined": "The app is using mock data, your uploaded CSV data and your manual transactions together.",
+    }
+
+    return {
+        "active_dataset": active_dataset,
+        "mock_transactions": count_mock_transactions(),
+        "uploaded_transactions": count_uploaded_transactions(user_id),
+        "manual_transactions": count_manual_transactions(user_id),
+        "available_modes": ["mock", "uploaded", "manual", "combined"],
+        "message": messages.get(active_dataset, "Unknown data mode."),
+    }
 
 
 def get_all_transactions(user_id):
@@ -381,16 +320,12 @@ def get_all_transactions(user_id):
 
     if active_dataset == "mock":
         df = mock_df
-
     elif active_dataset == "uploaded":
         df = uploaded_df
-
     elif active_dataset == "manual":
         df = manual_df
-
     elif active_dataset == "combined":
         df = pd.concat([mock_df, uploaded_df, manual_df], ignore_index=True)
-
     else:
         df = mock_df
 
@@ -412,48 +347,28 @@ def get_all_transactions(user_id):
     return df
 
 
-# -----------------------------
-# Create manual data
-# -----------------------------
-
 def create_manual_transaction(transaction, user_id):
     cleaned_date = clean_date(transaction.date)
 
     if cleaned_date is None:
         raise ValueError("Invalid transaction date.")
 
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    cursor.execute(
-        """
-        INSERT INTO manual_transactions (
-            user_id,
-            date,
-            description,
-            amount,
-            transaction_type,
-            category,
-            payment_method,
-            source
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            user_id,
-            cleaned_date,
-            clean_description(transaction.description),
-            clean_amount(transaction.amount),
-            standardise_transaction_type(transaction.transaction_type, transaction.amount),
-            clean_category(transaction.category),
-            transaction.payment_method or "Manual",
-            "manual",
+    row = {
+        "user_id": user_id,
+        "date": cleaned_date,
+        "description": clean_description(transaction.description),
+        "amount": clean_amount(transaction.amount),
+        "transaction_type": standardise_transaction_type(
+            transaction.transaction_type,
+            transaction.amount,
         ),
-    )
+        "category": clean_category(transaction.category),
+        "payment_method": transaction.payment_method or "Manual",
+        "source": "manual",
+    }
 
-    record_id = cursor.lastrowid
-    connection.commit()
-    connection.close()
+    inserted = insert_row("manual_transactions", row)
+    record_id = inserted["id"] if inserted else None
 
     add_audit_log(
         action="CREATE",
@@ -464,38 +379,24 @@ def create_manual_transaction(transaction, user_id):
         details=f"Manual transaction added: {transaction.description}",
     )
 
-    return {"message": "Manual transaction saved successfully", "id": record_id}
+    return {
+        "message": "Manual transaction saved successfully",
+        "id": record_id,
+    }
 
 
 def create_budget(budget, user_id):
-    connection = get_connection()
-    cursor = connection.cursor()
+    row = {
+        "user_id": user_id,
+        "month": budget.month,
+        "monthly_income": budget.monthly_income,
+        "category": clean_category(budget.category),
+        "budget_amount": budget.budget_amount,
+        "source": "manual",
+    }
 
-    cursor.execute(
-        """
-        INSERT INTO budgets (
-            user_id,
-            month,
-            monthly_income,
-            category,
-            budget_amount,
-            source
-        )
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (
-            user_id,
-            budget.month,
-            budget.monthly_income,
-            clean_category(budget.category),
-            budget.budget_amount,
-            "manual",
-        ),
-    )
-
-    record_id = cursor.lastrowid
-    connection.commit()
-    connection.close()
+    inserted = insert_row("budgets", row)
+    record_id = inserted["id"] if inserted else None
 
     add_audit_log(
         action="CREATE",
@@ -506,12 +407,11 @@ def create_budget(budget, user_id):
         details=f"Budget added for {budget.category}",
     )
 
-    return {"message": "Budget saved successfully", "id": record_id}
+    return {
+        "message": "Budget saved successfully",
+        "id": record_id,
+    }
 
-
-# -----------------------------
-# Dashboard
-# -----------------------------
 
 def get_dashboard(user_id):
     df = get_all_transactions(user_id)
@@ -527,10 +427,7 @@ def get_dashboard(user_id):
             "spending_by_category": [],
             "monthly_spending_trend": [],
             "source_summary": [],
-            "message": (
-                "No transaction data is available for the selected data mode. "
-                "Choose mock data, upload a CSV, or add manual transactions."
-            ),
+            "message": "No transaction data is available for the selected data mode.",
         }
 
     income_df = df[df["transaction_type"] == "income"]
@@ -576,24 +473,16 @@ def get_dashboard(user_id):
     }
 
 
-# -----------------------------
-# Budget tracker
-# -----------------------------
-
 def get_budget_summary(user_id):
     df = get_all_transactions(user_id)
 
-    connection = get_connection()
-    budgets_df = pd.read_sql_query(
-        """
-        SELECT *
-        FROM budgets
-        WHERE user_id = ?
-        """,
-        connection,
-        params=(user_id,),
+    budgets = select_rows(
+        table_name="budgets",
+        filters={"user_id": user_id},
+        order="month.desc",
     )
-    connection.close()
+
+    budgets_df = pd.DataFrame(budgets)
 
     if budgets_df.empty:
         return {
@@ -666,10 +555,6 @@ def get_budget_summary(user_id):
     }
 
 
-# -----------------------------
-# Spending analysis
-# -----------------------------
-
 def get_spending_analysis(user_id):
     df = get_all_transactions(user_id)
     active_dataset = get_active_dataset_mode(user_id)
@@ -683,9 +568,7 @@ def get_spending_analysis(user_id):
             "top_categories": [],
             "monthly_analysis": [],
             "source_summary": [],
-            "message": (
-                "No spending analysis is available because the selected data mode has no transactions."
-            ),
+            "message": "No spending analysis is available because the selected data mode has no transactions.",
         }
 
     expense_df = df[df["transaction_type"] == "expense"]
@@ -748,20 +631,13 @@ def get_spending_analysis(user_id):
     }
 
 
-# -----------------------------
-# Forecast
-# -----------------------------
-
 def get_forecast(user_id):
     df = get_all_transactions(user_id)
     active_dataset = get_active_dataset_mode(user_id)
 
     if df.empty:
         return {
-            "message": (
-                "No transaction data is available for the selected data mode. "
-                "Choose mock data, upload a CSV, or add manual transactions."
-            ),
+            "message": "No transaction data is available for the selected data mode.",
             "prediction": None,
             "mae": None,
             "r2_score": None,
@@ -795,8 +671,7 @@ def get_forecast(user_id):
             "message": (
                 f"The selected data mode is '{active_dataset}', but it only has "
                 f"{len(monthly)} month(s) of expense history. At least 6 months "
-                "are recommended for a more meaningful ML forecast. Use mock data "
-                "for demonstration or add/upload more transaction history."
+                "are recommended for a more meaningful ML forecast."
             ),
             "prediction": None,
             "mae": None,
@@ -841,15 +716,12 @@ def get_forecast(user_id):
         }
     )
 
-    explanation = (
-        f"The app is using '{active_dataset}' data mode. The model predicts that "
-        f"next month's spending may be around £{next_prediction:.2f}. The MAE is "
-        f"£{mae:.2f}, meaning predictions are usually around this amount away from "
-        "the real monthly spending values."
-    )
-
     return {
-        "message": explanation,
+        "message": (
+            f"The app is using '{active_dataset}' data mode. The model predicts "
+            f"that next month's spending may be around £{next_prediction:.2f}. "
+            f"The MAE is £{mae:.2f}."
+        ),
         "prediction": round(next_prediction, 2),
         "mae": round(mae, 2),
         "r2_score": round(r2, 3),
@@ -858,10 +730,6 @@ def get_forecast(user_id):
         "forecast_ready": True,
     }
 
-
-# -----------------------------
-# Insights
-# -----------------------------
 
 def get_insights(user_id):
     dashboard = get_dashboard(user_id)
@@ -894,11 +762,11 @@ def get_insights(user_id):
     for category in budget.get("category_budgets", []):
         if category["status"] == "Over budget":
             insights.append(
-                f"You are over budget in {category['category']}. You have spent £{category['spent']:.2f} against a budget of £{category['budget_amount']:.2f}."
+                f"You are over budget in {category['category']}."
             )
         elif category["status"] == "Close to limit":
             insights.append(
-                f"You are close to your budget limit in {category['category']}. Monitor this category carefully."
+                f"You are close to your budget limit in {category['category']}."
             )
 
     if budget.get("safe_daily_spending", 0) > 0:
@@ -911,12 +779,7 @@ def get_insights(user_id):
             f"Based on the selected dataset, next monthly spending may be around £{forecast['prediction']:.2f}."
         )
     else:
-        insights.append(
-            forecast.get(
-                "message",
-                "A forecast cannot be generated yet because there is not enough monthly history.",
-            )
-        )
+        insights.append(forecast.get("message"))
 
     if analysis.get("average_monthly_spending", 0) > 0:
         insights.append(
@@ -929,10 +792,6 @@ def get_insights(user_id):
         "summary": f"These insights are generated using {active_dataset} data mode.",
     }
 
-
-# -----------------------------
-# Transactions
-# -----------------------------
 
 def get_transactions(user_id, limit=100):
     df = get_all_transactions(user_id)
@@ -955,10 +814,6 @@ def get_transactions(user_id, limit=100):
         ]
     ].to_dict(orient="records")
 
-
-# -----------------------------
-# CSV upload
-# -----------------------------
 
 def upload_csv_transactions(
     file_bytes,
@@ -994,7 +849,10 @@ def upload_csv_transactions(
         amount_value = clean_amount(row[amount_column])
 
         if type_column and type_column in df.columns:
-            transaction_type = standardise_transaction_type(row[type_column], amount_value)
+            transaction_type = standardise_transaction_type(
+                row[type_column],
+                amount_value,
+            )
         else:
             transaction_type = standardise_transaction_type("", amount_value)
 
@@ -1004,16 +862,16 @@ def upload_csv_transactions(
             payment_method = "Uploaded CSV"
 
         cleaned_rows.append(
-            (
-                user_id,
-                date_value,
-                clean_description(row[description_column]),
-                amount_value,
-                transaction_type,
-                clean_category(row[category_column]),
-                payment_method,
-                "uploaded",
-            )
+            {
+                "user_id": user_id,
+                "date": date_value,
+                "description": clean_description(row[description_column]),
+                "amount": amount_value,
+                "transaction_type": transaction_type,
+                "category": clean_category(row[category_column]),
+                "payment_method": payment_method,
+                "source": "uploaded",
+            }
         )
 
     if len(cleaned_rows) == 0:
@@ -1021,37 +879,15 @@ def upload_csv_transactions(
             "The uploaded CSV could not be used because no valid transaction rows were found."
         )
 
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    # A new uploaded CSV replaces the previous uploaded CSV for this user only.
-    cursor.execute(
-        """
-        DELETE FROM uploaded_transactions
-        WHERE user_id = ?
-        """,
-        (user_id,),
+    delete_rows(
+        table_name="uploaded_transactions",
+        filters={"user_id": user_id},
     )
 
-    cursor.executemany(
-        """
-        INSERT INTO uploaded_transactions (
-            user_id,
-            date,
-            description,
-            amount,
-            transaction_type,
-            category,
-            payment_method,
-            source
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        cleaned_rows,
+    insert_rows(
+        table_name="uploaded_transactions",
+        rows=cleaned_rows,
     )
-
-    connection.commit()
-    connection.close()
 
     set_active_dataset_mode("uploaded", user_id)
 
@@ -1074,31 +910,12 @@ def upload_csv_transactions(
     }
 
 
-# -----------------------------
-# Audit log
-# -----------------------------
-
 def get_audit_log(user_id):
-    connection = get_connection()
+    rows = select_rows(
+        table_name="audit_log",
+        filters={"user_id": user_id},
+        order="created_at.desc",
+        limit=100,
+    )
 
-    rows = connection.execute(
-        """
-        SELECT
-            id,
-            action,
-            record_type,
-            record_id,
-            source,
-            details,
-            created_at
-        FROM audit_log
-        WHERE user_id = ?
-        ORDER BY created_at DESC
-        LIMIT 100
-        """,
-        (user_id,),
-    ).fetchall()
-
-    connection.close()
-
-    return [dict(row) for row in rows]
+    return rows
