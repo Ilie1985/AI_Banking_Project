@@ -492,66 +492,107 @@ def get_budget_summary(user_id):
             "remaining_money": 0,
             "safe_daily_spending": 0,
             "category_budgets": [],
+            "budget_groups": [],
             "message": "No manual budget has been added yet for your account.",
         }
 
-    latest_month = budgets_df["month"].max()
-    latest_budget_df = budgets_df[budgets_df["month"] == latest_month]
+    budgets_df["monthly_income"] = pd.to_numeric(
+        budgets_df["monthly_income"],
+        errors="coerce",
+    ).fillna(0)
 
-    monthly_income = float(latest_budget_df["monthly_income"].max())
-    total_budget = float(latest_budget_df["budget_amount"].sum())
+    budgets_df["budget_amount"] = pd.to_numeric(
+        budgets_df["budget_amount"],
+        errors="coerce",
+    ).fillna(0)
+
+    budgets_df["category"] = budgets_df["category"].apply(clean_category)
 
     if df.empty:
-        expense_df = pd.DataFrame(columns=df.columns)
+        expense_df = pd.DataFrame(columns=["month", "category", "amount"])
     else:
-        expense_df = df[
-            (df["transaction_type"] == "expense")
-            & (df["month"] == latest_month)
-        ]
+        expense_df = df[df["transaction_type"] == "expense"].copy()
 
-    spent_so_far = float(expense_df["amount"].sum())
-    remaining_money = monthly_income - spent_so_far
+    budget_groups = []
 
-    category_spending = (
-        expense_df.groupby("category")["amount"]
-        .sum()
-        .reset_index()
-        .rename(columns={"amount": "spent"})
-    )
+    months = sorted(budgets_df["month"].unique(), reverse=True)
 
-    merged = latest_budget_df.merge(
-        category_spending,
-        on="category",
-        how="left",
-    )
+    for month in months:
+        month_budget_df = budgets_df[budgets_df["month"] == month].copy()
 
-    merged["spent"] = merged["spent"].fillna(0)
-    merged["remaining"] = merged["budget_amount"] - merged["spent"]
+        monthly_income = float(month_budget_df["monthly_income"].max())
+        total_budget = float(month_budget_df["budget_amount"].sum())
 
-    def budget_status(row):
-        if row["spent"] > row["budget_amount"]:
-            return "Over budget"
+        if expense_df.empty:
+            month_expense_df = pd.DataFrame(columns=["month", "category", "amount"])
+        else:
+            month_expense_df = expense_df[expense_df["month"] == month].copy()
 
-        if row["spent"] >= row["budget_amount"] * 0.8:
-            return "Close to limit"
+        spent_so_far = float(month_expense_df["amount"].sum())
+        remaining_money = monthly_income - spent_so_far
+        safe_daily_spending = remaining_money / 30 if remaining_money > 0 else 0
 
-        return "Healthy"
+        category_spending = (
+            month_expense_df.groupby("category")["amount"]
+            .sum()
+            .reset_index()
+            .rename(columns={"amount": "spent"})
+        )
 
-    merged["status"] = merged.apply(budget_status, axis=1)
+        merged = month_budget_df.merge(
+            category_spending,
+            on="category",
+            how="left",
+        )
 
-    safe_daily_spending = remaining_money / 30 if remaining_money > 0 else 0
+        merged["spent"] = merged["spent"].fillna(0)
+        merged["remaining"] = merged["budget_amount"] - merged["spent"]
+
+        def budget_status(row):
+            if row["spent"] > row["budget_amount"]:
+                return "Over budget"
+
+            if row["spent"] >= row["budget_amount"] * 0.8:
+                return "Close to limit"
+
+            return "Healthy"
+
+        merged["status"] = merged.apply(budget_status, axis=1)
+
+        category_budgets = merged[
+            [
+                "category",
+                "budget_amount",
+                "spent",
+                "remaining",
+                "status",
+            ]
+        ].to_dict(orient="records")
+
+        budget_groups.append(
+            {
+                "month": month,
+                "monthly_income": round(monthly_income, 2),
+                "total_budget": round(total_budget, 2),
+                "spent_so_far": round(spent_so_far, 2),
+                "remaining_money": round(remaining_money, 2),
+                "safe_daily_spending": round(safe_daily_spending, 2),
+                "category_budgets": category_budgets,
+            }
+        )
+
+    latest_group = budget_groups[0]
 
     return {
-        "month": latest_month,
-        "monthly_income": round(monthly_income, 2),
-        "total_budget": round(total_budget, 2),
-        "spent_so_far": round(spent_so_far, 2),
-        "remaining_money": round(remaining_money, 2),
-        "safe_daily_spending": round(safe_daily_spending, 2),
-        "category_budgets": merged[
-            ["category", "budget_amount", "spent", "remaining", "status"]
-        ].to_dict(orient="records"),
-        "message": "Budget summary generated using your selected active transaction dataset.",
+        "month": latest_group["month"],
+        "monthly_income": latest_group["monthly_income"],
+        "total_budget": latest_group["total_budget"],
+        "spent_so_far": latest_group["spent_so_far"],
+        "remaining_money": latest_group["remaining_money"],
+        "safe_daily_spending": latest_group["safe_daily_spending"],
+        "category_budgets": latest_group["category_budgets"],
+        "budget_groups": budget_groups,
+        "message": "All budgets are grouped by month, newest month first.",
     }
 
 

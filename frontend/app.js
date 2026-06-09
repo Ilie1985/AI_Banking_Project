@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     showAuthMessage(
       "Supabase is not configured yet. Add your Supabase URL and anon key in .env, then run python generate_config.py.",
-      "error"
+      "error",
     );
     showLoggedOutState();
   }
@@ -139,11 +139,14 @@ function setupAuthForms() {
       signupForm.reset();
 
       if (data.user && data.session) {
-        showAuthMessage("Account created and logged in successfully.", "success");
+        showAuthMessage(
+          "Account created and logged in successfully.",
+          "success",
+        );
       } else {
         showAuthMessage(
           "Account created. Please check your email to confirm your account, then log in.",
-          "success"
+          "success",
         );
       }
     } catch (error) {
@@ -391,13 +394,13 @@ async function setDataMode(mode) {
     } else {
       showInlineMessage(
         result.message || `Data mode changed to ${mode}.`,
-        "success"
+        "success",
       );
     }
   } catch (error) {
     showInlineMessage(
       "Could not switch data mode. Please check that you are logged in and the backend is running.",
-      "error"
+      "error",
     );
     console.error(error);
   }
@@ -421,13 +424,13 @@ async function loadDashboard() {
     const data = await apiGet("/dashboard");
 
     document.getElementById("totalIncome").textContent = formatCurrency(
-      data.total_income
+      data.total_income,
     );
     document.getElementById("totalExpenses").textContent = formatCurrency(
-      data.total_expenses
+      data.total_expenses,
     );
     document.getElementById("netSavings").textContent = formatCurrency(
-      data.net_savings
+      data.net_savings,
     );
     document.getElementById("transactionCount").textContent =
       data.transaction_count;
@@ -530,11 +533,14 @@ function setupBudgetForm() {
       await apiPost("/budget", budget);
       form.reset();
       await refreshAllData();
-      showInlineMessage("Budget saved successfully for your account.", "success");
+      showInlineMessage(
+        "Budget saved successfully for your account.",
+        "success",
+      );
     } catch (error) {
       showInlineMessage(
         "Could not save budget. Please check your form values.",
-        "error"
+        "error",
       );
       console.error(error);
     }
@@ -546,24 +552,24 @@ async function loadBudget() {
     const data = await apiGet("/budget");
 
     document.getElementById("budgetIncome").textContent = formatCurrency(
-      data.monthly_income
+      data.monthly_income,
     );
     document.getElementById("spentSoFar").textContent = formatCurrency(
-      data.spent_so_far
+      data.spent_so_far,
     );
     document.getElementById("remainingMoney").textContent = formatCurrency(
-      data.remaining_money
+      data.remaining_money,
     );
     document.getElementById("safeDailySpending").textContent = formatCurrency(
-      data.safe_daily_spending
+      data.safe_daily_spending,
     );
 
     const tableBody = document.getElementById("budgetTableBody");
     tableBody.innerHTML = "";
 
-    const rows = data.category_budgets || [];
+    const budgetGroups = data.budget_groups || [];
 
-    if (rows.length === 0) {
+    if (budgetGroups.length === 0) {
       tableBody.innerHTML = `
         <tr>
           <td colspan="5">No budget categories added yet.</td>
@@ -572,18 +578,50 @@ async function loadBudget() {
       return;
     }
 
-    rows.forEach((item) => {
-      const row = document.createElement("tr");
+    budgetGroups.forEach((group) => {
+      const monthHeaderRow = document.createElement("tr");
 
-      row.innerHTML = `
-        <td>${item.category}</td>
-        <td>${formatCurrency(item.budget_amount)}</td>
-        <td>${formatCurrency(item.spent)}</td>
-        <td>${formatCurrency(item.remaining)}</td>
-        <td>${renderStatusBadge(item.status)}</td>
+      monthHeaderRow.innerHTML = `
+        <td colspan="5" class="budget-month-row">
+          <strong>${group.month}</strong>
+          <span>
+            Income: ${formatCurrency(group.monthly_income)} |
+            Total Budget: ${formatCurrency(group.total_budget)} |
+            Spent: ${formatCurrency(group.spent_so_far)} |
+            Remaining: ${formatCurrency(group.remaining_money)} |
+            Safe Daily: ${formatCurrency(group.safe_daily_spending)}
+          </span>
+        </td>
       `;
 
-      tableBody.appendChild(row);
+      tableBody.appendChild(monthHeaderRow);
+
+      const rows = group.category_budgets || [];
+
+      if (rows.length === 0) {
+        const emptyRow = document.createElement("tr");
+
+        emptyRow.innerHTML = `
+          <td colspan="5">No category budgets found for this month.</td>
+        `;
+
+        tableBody.appendChild(emptyRow);
+        return;
+      }
+
+      rows.forEach((item) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${item.category}</td>
+          <td>${formatCurrency(item.budget_amount)}</td>
+          <td>${formatCurrency(item.spent)}</td>
+          <td>${formatCurrency(item.remaining)}</td>
+          <td>${renderStatusBadge(item.status)}</td>
+        `;
+
+        tableBody.appendChild(row);
+      });
     });
   } catch (error) {
     console.error("Budget error:", error);
@@ -820,12 +858,12 @@ function setupTransactionForm() {
 
       showInlineMessage(
         "Transaction saved successfully for your account.",
-        "success"
+        "success",
       );
     } catch (error) {
       showInlineMessage(
         "Could not save transaction. Please check the form and try again.",
-        "error"
+        "error",
       );
       console.error(error);
     }
@@ -908,20 +946,20 @@ function setupUploadForm() {
     formData.append("date_column", document.getElementById("dateColumn").value);
     formData.append(
       "description_column",
-      document.getElementById("descriptionColumn").value
+      document.getElementById("descriptionColumn").value,
     );
     formData.append(
       "amount_column",
-      document.getElementById("amountColumn").value
+      document.getElementById("amountColumn").value,
     );
     formData.append(
       "category_column",
-      document.getElementById("categoryColumn").value
+      document.getElementById("categoryColumn").value,
     );
     formData.append("type_column", document.getElementById("typeColumn").value);
     formData.append(
       "payment_method_column",
-      document.getElementById("paymentMethodColumn").value
+      document.getElementById("paymentMethodColumn").value,
     );
 
     try {
@@ -944,7 +982,7 @@ function setupUploadForm() {
 
       showUploadResult(
         `${result.message} Rows uploaded: ${result.rows_uploaded}`,
-        "success"
+        "success",
       );
 
       form.reset();
@@ -952,7 +990,7 @@ function setupUploadForm() {
     } catch (error) {
       showUploadResult(
         "Upload failed. Check that the column names exactly match your CSV headers.",
-        "error"
+        "error",
       );
 
       console.error(error);
@@ -1016,7 +1054,7 @@ function showInlineMessage(message, type = "success") {
   messageBox.classList.remove(
     "success-message",
     "warning-message",
-    "error-message"
+    "error-message",
   );
 
   if (type === "success") {

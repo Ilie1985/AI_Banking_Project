@@ -873,3 +873,24 @@ tr:hover {
 .hidden-api-status {
   display: none !important;
 }
+
+
+.budget-month-row {
+  background: #eef2ff;
+  color: #1e3a8a;
+  font-weight: 700;
+  padding: 16px;
+}
+
+.budget-month-row strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.budget-month-row span {
+  display: block;
+  color: #374151;
+  font-weight: 600;
+  line-height: 1.5;
+}
