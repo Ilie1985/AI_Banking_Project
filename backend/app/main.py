@@ -1,4 +1,5 @@
 import json
+import os
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -38,6 +39,11 @@ def clean_env_value(value):
 
 
 def read_env_value(key):
+    environment_value = os.environ.get(key)
+
+    if environment_value:
+        return clean_env_value(environment_value)
+
     if not ENV_PATH.exists():
         return None
 

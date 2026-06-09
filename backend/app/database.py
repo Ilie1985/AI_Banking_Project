@@ -2,6 +2,7 @@ import json
 import urllib.error
 import urllib.parse
 import urllib.request
+import os
 from pathlib import Path
 
 
@@ -10,6 +11,11 @@ ENV_PATH = ROOT_DIR / ".env"
 
 
 def read_env_value(key):
+    environment_value = os.environ.get(key)
+
+    if environment_value:
+        return clean_env_value(environment_value)
+
     if not ENV_PATH.exists():
         return None
 
