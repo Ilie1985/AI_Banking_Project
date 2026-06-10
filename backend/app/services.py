@@ -88,6 +88,20 @@ def clean_description(value):
 
 
 def clean_date(value):
+    value = str(value).strip()
+
+    if value == "" or value.lower() in ["nan", "none", "null"]:
+        return None
+
+    # HTML date inputs send dates as YYYY-MM-DD.
+    # We must parse this format exactly so 2026-06-09 stays as 9 June 2026.
+    try:
+        converted = pd.to_datetime(value, format="%Y-%m-%d", errors="raise")
+        return converted.strftime("%Y-%m-%d")
+    except Exception:
+        pass
+
+    # UK-style dates such as 09/06/2026 should be treated as 9 June 2026.
     converted = pd.to_datetime(value, errors="coerce", dayfirst=True)
 
     if pd.isna(converted):
