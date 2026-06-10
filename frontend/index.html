@@ -353,43 +353,37 @@
 
           <div class="stats-grid">
             <div class="stat-card">
-              <span>Monthly Income</span>
+              <span>Total Budgeted Income</span>
               <strong id="budgetIncome">£0.00</strong>
             </div>
 
             <div class="stat-card">
-              <span>Spent So Far</span>
+              <span>Total Spent</span>
               <strong id="spentSoFar">£0.00</strong>
             </div>
 
             <div class="stat-card">
-              <span>Remaining Money</span>
+              <span>Total Remaining</span>
               <strong id="remainingMoney">£0.00</strong>
             </div>
 
             <div class="stat-card">
-              <span>Safe Daily Spending</span>
+              <span>Latest Safe Daily Spending</span>
               <strong id="safeDailySpending">£0.00</strong>
             </div>
           </div>
 
           <div class="table-card">
             <h3>Category Budgets</h3>
+            <p class="section-note">
+              Budgets are grouped by month. Each category card shows the budget,
+              spent amount and remaining balance for that month.
+            </p>
 
-            <div class="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>Budget</th>
-                    <th>Spent</th>
-                    <th>Remaining</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody id="budgetTableBody"></tbody>
-              </table>
-            </div>
+            <div
+              id="budgetGroupsContainer"
+              class="budget-groups-container"
+            ></div>
           </div>
         </section>
 
@@ -540,7 +534,16 @@
             />
 
             <label for="paymentMethod">Payment Method</label>
-            <input type="text" id="paymentMethod" placeholder="Debit Card" />
+            <select id="paymentMethod" required>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cash">Cash</option>
+              <option value="Direct Debit">Direct Debit</option>
+              <option value="Standing Order">Standing Order</option>
+              <option value="PayPal">PayPal</option>
+              <option value="Other">Other</option>
+            </select>
 
             <button type="submit">Save Transaction</button>
           </form>
@@ -691,8 +694,8 @@
     </main>
 
     <footer class="footer"></footer>
-    <script src="config.js?v=17"></script>
+    <script src="config.js?v=22"></script>
 
-    <script src="app.js?v=17"></script>
+    <script src="app.js?v=22"></script>
   </body>
 </html>

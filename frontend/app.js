@@ -337,6 +337,21 @@ function formatCurrency(value) {
   });
 }
 
+function formatBudgetMonth(monthValue) {
+  if (!monthValue) {
+    return "Unknown Month";
+  }
+
+  const [year, month] = monthValue.split("-");
+
+  const date = new Date(Number(year), Number(month) - 1, 1);
+
+  return date.toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+}
+
 /* ---------------- DATA MODE ---------------- */
 
 async function loadDataStatus() {
@@ -564,64 +579,107 @@ async function loadBudget() {
       data.safe_daily_spending,
     );
 
-    const tableBody = document.getElementById("budgetTableBody");
-    tableBody.innerHTML = "";
+    const container = document.getElementById("budgetGroupsContainer");
+    container.innerHTML = "";
 
     const budgetGroups = data.budget_groups || [];
 
     if (budgetGroups.length === 0) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="5">No budget categories added yet.</td>
-        </tr>
+      container.innerHTML = `
+        <div class="empty-state-box">
+          <h4>No budgets added yet</h4>
+          <p>Add a monthly income and category budget to start tracking your spending.</p>
+        </div>
       `;
       return;
     }
 
     budgetGroups.forEach((group) => {
-      const monthHeaderRow = document.createElement("tr");
+      const monthCard = document.createElement("section");
+      monthCard.className = "budget-month-card";
 
-      monthHeaderRow.innerHTML = `
-        <td colspan="5" class="budget-month-row">
-          <strong>${group.month}</strong>
-          <span>
-            Income: ${formatCurrency(group.monthly_income)} |
-            Total Budget: ${formatCurrency(group.total_budget)} |
-            Spent: ${formatCurrency(group.spent_so_far)} |
-            Remaining: ${formatCurrency(group.remaining_money)} |
-            Safe Daily: ${formatCurrency(group.safe_daily_spending)}
-          </span>
-        </td>
+      monthCard.innerHTML = `
+        <div class="budget-month-card-header">
+          <div>
+            <h3>${formatBudgetMonth(group.month)}</h3>
+            <p>${group.month} budget summary</p>
+          </div>
+
+          <span class="budget-month-badge">${group.month}</span>
+        </div>
+
+        <div class="budget-month-summary-grid">
+          <div>
+            <span>Income</span>
+            <strong>${formatCurrency(group.monthly_income)}</strong>
+          </div>
+
+          <div>
+            <span>Total Budget</span>
+            <strong>${formatCurrency(group.total_budget)}</strong>
+          </div>
+
+          <div>
+            <span>Spent</span>
+            <strong>${formatCurrency(group.spent_so_far)}</strong>
+          </div>
+
+          <div>
+            <span>Remaining</span>
+            <strong>${formatCurrency(group.remaining_money)}</strong>
+          </div>
+
+          <div>
+            <span>Safe Daily</span>
+            <strong>${formatCurrency(group.safe_daily_spending)}</strong>
+          </div>
+        </div>
+
+        <div class="budget-category-list">
+          ${(group.category_budgets || [])
+            .map((item) => {
+              const spent = Number(item.spent || 0);
+              const budgetAmount = Number(item.budget_amount || 0);
+              const percentage =
+                budgetAmount > 0
+                  ? Math.min((spent / budgetAmount) * 100, 100)
+                  : 0;
+
+              return `
+                <article class="budget-category-row">
+                  <div class="budget-category-name">
+                    <h4>${item.category}</h4>
+                    ${renderStatusBadge(item.status)}
+                  </div>
+
+                  <div class="budget-category-money">
+                    <div>
+                      <span>Budget</span>
+                      <strong>${formatCurrency(item.budget_amount)}</strong>
+                    </div>
+
+                    <div>
+                      <span>Spent</span>
+                      <strong>${formatCurrency(item.spent)}</strong>
+                    </div>
+
+                    <div>
+                      <span>Remaining</span>
+                      <strong>${formatCurrency(item.remaining)}</strong>
+                    </div>
+                  </div>
+
+                  <div class="budget-progress-track">
+                    <div class="budget-progress-fill" style="width: ${percentage}%"></div>
+                  </div>
+                </article>
+              `;
+            })
+            .join("")}
+        </div>
       `;
 
-      tableBody.appendChild(monthHeaderRow);
-
-      const rows = group.category_budgets || [];
-
-      if (rows.length === 0) {
-        const emptyRow = document.createElement("tr");
-
-        emptyRow.innerHTML = `
-          <td colspan="5">No category budgets found for this month.</td>
-        `;
-
-        tableBody.appendChild(emptyRow);
-        return;
-      }
-
-      rows.forEach((item) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td>${item.category}</td>
-          <td>${formatCurrency(item.budget_amount)}</td>
-          <td>${formatCurrency(item.spent)}</td>
-          <td>${formatCurrency(item.remaining)}</td>
-          <td>${renderStatusBadge(item.status)}</td>
-        `;
-
-        tableBody.appendChild(row);
-      });
+      container.appendChild(monthCard);
     });
   } catch (error) {
     console.error("Budget error:", error);
@@ -847,7 +905,7 @@ function setupTransactionForm() {
       transaction_type: document.getElementById("transactionType").value,
       category: document.getElementById("transactionCategory").value,
       payment_method:
-        document.getElementById("paymentMethod").value || "Manual",
+        document.getElementById("paymentMethod").value || "Debit Card",
     };
 
     try {
