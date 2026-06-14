@@ -47,7 +47,14 @@ function initialiseSupabase() {
     return;
   }
 
-  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      storage: window.sessionStorage,
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
+  });
 }
 
 async function initialiseAuth() {
