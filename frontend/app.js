@@ -1,4 +1,11 @@
-const API_BASE = window.APP_CONFIG?.API_BASE || "http://127.0.0.1:8000";
+const LOCAL_API_BASE = "http://127.0.0.1:8000";
+const LIVE_API_BASE = "https://ai-banking-backend-x040.onrender.com";
+
+const IS_LOCAL_FRONTEND =
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "localhost";
+
+const API_BASE = IS_LOCAL_FRONTEND ? LOCAL_API_BASE : LIVE_API_BASE;
 
 const SUPABASE_URL = window.APP_CONFIG?.SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY || "";
@@ -14,6 +21,7 @@ let forecastChart = null;
 
 let currentTransactionLimit = 5;
 let currentDataMode = "mock";
+let currentBudgetItems = {};
 
 document.addEventListener("DOMContentLoaded", async () => {
   checkApiHealth();
@@ -318,6 +326,42 @@ async function apiPost(endpoint, data) {
   return response.json();
 }
 
+async function apiPut(endpoint, data) {
+  const authHeaders = await getAuthHeaders();
+
+  const response = await fetch(`${API_BASE}${endpoint}`, {
+    method: "PUT",
+    headers: {
+      ...authHeaders,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error);
+  }
+
+  return response.json();
+}
+
+async function apiDelete(endpoint) {
+  const authHeaders = await getAuthHeaders();
+
+  const response = await fetch(`${API_BASE}${endpoint}`, {
+    method: "DELETE",
+    headers: authHeaders,
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error);
+  }
+
+  return response.json();
+}
+
 async function checkApiHealth() {
   const statusBox = document.getElementById("apiStatus");
 
@@ -589,6 +633,8 @@ async function loadBudget() {
     const container = document.getElementById("budgetGroupsContainer");
     container.innerHTML = "";
 
+    currentBudgetItems = {};
+
     const budgetGroups = data.budget_groups || [];
 
     if (budgetGroups.length === 0) {
@@ -645,6 +691,8 @@ async function loadBudget() {
         <div class="budget-category-list">
           ${(group.category_budgets || [])
             .map((item) => {
+              currentBudgetItems[item.id] = item;
+
               const spent = Number(item.spent || 0);
               const budgetAmount = Number(item.budget_amount || 0);
               const percentage =
@@ -653,7 +701,7 @@ async function loadBudget() {
                   : 0;
 
               return `
-                <article class="budget-category-row">
+                <article class="budget-category-row" id="budget-row-${item.id}">
                   <div class="budget-category-name">
                     <h4>${item.category}</h4>
                     ${renderStatusBadge(item.status)}
@@ -676,8 +724,20 @@ async function loadBudget() {
                     </div>
                   </div>
 
-                  <div class="budget-progress-track">
-                    <div class="budget-progress-fill" style="width: ${percentage}%"></div>
+                  <div class="budget-progress-area">
+                    <div class="budget-progress-track">
+                      <div class="budget-progress-fill" style="width: ${percentage}%"></div>
+                    </div>
+
+                    <div class="budget-action-buttons">
+                      <button type="button" class="small-edit-btn" onclick="startBudgetEdit(${item.id})">
+                        Edit
+                      </button>
+
+                      <button type="button" class="small-delete-btn" onclick="startBudgetDelete(${item.id})">
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </article>
               `;
@@ -693,6 +753,478 @@ async function loadBudget() {
   }
 }
 
+function startBudgetEdit(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for editing.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("editing-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Edit Budget Category</h4>
+      <p>${item.month}</p>
+    </div>
+
+    <div class="budget-edit-fields">
+      <label>
+        Category
+        <input type="text" id="editBudgetCategory-${budgetId}" value="${item.category}" />
+      </label>
+
+      <label>
+        Budget Amount
+        <input type="number" id="editBudgetAmount-${budgetId}" value="${item.budget_amount}" min="0" step="0.01" />
+      </label>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-save-btn" onclick="saveBudgetEdit(${budgetId})">
+        Save Changes
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+async function saveBudgetEdit(budgetId) {
+  const categoryInput = document.getElementById(
+    `editBudgetCategory-${budgetId}`,
+  );
+  const amountInput = document.getElementById(`editBudgetAmount-${budgetId}`);
+
+  if (!categoryInput || !amountInput) {
+    showInlineMessage("Could not read the edited budget values.", "error");
+    return;
+  }
+
+  const category = categoryInput.value.trim();
+  const budgetAmount = Number(amountInput.value);
+
+  if (!category) {
+    showInlineMessage("Category name cannot be empty.", "error");
+    return;
+  }
+
+  if (Number.isNaN(budgetAmount) || budgetAmount < 0) {
+    showInlineMessage("Budget amount must be zero or more.", "error");
+    return;
+  }
+
+  try {
+    await apiPut(`/budget/${budgetId}`, {
+      category,
+      budget_amount: budgetAmount,
+    });
+
+    await refreshAllData();
+
+    showInlineMessage("Budget category updated successfully.", "success");
+  } catch (error) {
+    showInlineMessage("Could not update the budget category.", "error");
+    console.error(error);
+  }
+}
+
+function startBudgetDelete(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for deletion.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("deleting-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Delete ${item.category}?</h4>
+      <p>This removes the budget category for ${item.month}. Transactions will not be deleted.</p>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-delete-btn" onclick="confirmBudgetDelete(${budgetId})">
+        Confirm Delete
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+function startBudgetEdit(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for editing.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("editing-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Edit Budget Category</h4>
+      <p>${item.month}</p>
+    </div>
+
+    <div class="budget-edit-fields">
+      <label>
+        Category
+        <input type="text" id="editBudgetCategory-${budgetId}" value="${item.category}" />
+      </label>
+
+      <label>
+        Budget Amount
+        <input type="number" id="editBudgetAmount-${budgetId}" value="${item.budget_amount}" min="0" step="0.01" />
+      </label>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-save-btn" onclick="saveBudgetEdit(${budgetId})">
+        Save Changes
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+async function saveBudgetEdit(budgetId) {
+  const categoryInput = document.getElementById(
+    `editBudgetCategory-${budgetId}`,
+  );
+  const amountInput = document.getElementById(`editBudgetAmount-${budgetId}`);
+
+  if (!categoryInput || !amountInput) {
+    showInlineMessage("Could not read the edited budget values.", "error");
+    return;
+  }
+
+  const category = categoryInput.value.trim();
+  const budgetAmount = Number(amountInput.value);
+
+  if (!category) {
+    showInlineMessage("Category name cannot be empty.", "error");
+    return;
+  }
+
+  if (Number.isNaN(budgetAmount) || budgetAmount < 0) {
+    showInlineMessage("Budget amount must be zero or more.", "error");
+    return;
+  }
+
+  try {
+    await apiPut(`/budget/${budgetId}`, {
+      category,
+      budget_amount: budgetAmount,
+    });
+
+    await refreshAllData();
+
+    showInlineMessage("Budget category updated successfully.", "success");
+  } catch (error) {
+    showInlineMessage("Could not update the budget category.", "error");
+    console.error(error);
+  }
+}
+
+function startBudgetDelete(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for deletion.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("deleting-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Delete ${item.category}?</h4>
+      <p>This removes the budget category for ${item.month}. Transactions will not be deleted.</p>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-delete-btn" onclick="confirmBudgetDelete(${budgetId})">
+        Confirm Delete
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+function startBudgetEdit(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for editing.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("editing-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Edit Budget Category</h4>
+      <p>${item.month}</p>
+    </div>
+
+    <div class="budget-edit-fields">
+      <label>
+        Category
+        <input type="text" id="editBudgetCategory-${budgetId}" value="${item.category}" />
+      </label>
+
+      <label>
+        Budget Amount
+        <input type="number" id="editBudgetAmount-${budgetId}" value="${item.budget_amount}" min="0" step="0.01" />
+      </label>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-save-btn" onclick="saveBudgetEdit(${budgetId})">
+        Save Changes
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+async function saveBudgetEdit(budgetId) {
+  const categoryInput = document.getElementById(
+    `editBudgetCategory-${budgetId}`,
+  );
+  const amountInput = document.getElementById(`editBudgetAmount-${budgetId}`);
+
+  if (!categoryInput || !amountInput) {
+    showInlineMessage("Could not read the edited budget values.", "error");
+    return;
+  }
+
+  const category = categoryInput.value.trim();
+  const budgetAmount = Number(amountInput.value);
+
+  if (!category) {
+    showInlineMessage("Category name cannot be empty.", "error");
+    return;
+  }
+
+  if (Number.isNaN(budgetAmount) || budgetAmount < 0) {
+    showInlineMessage("Budget amount must be zero or more.", "error");
+    return;
+  }
+
+  try {
+    await apiPut(`/budget/${budgetId}`, {
+      category,
+      budget_amount: budgetAmount,
+    });
+
+    await refreshAllData();
+
+    showInlineMessage("Budget category updated successfully.", "success");
+  } catch (error) {
+    showInlineMessage("Could not update the budget category.", "error");
+    console.error(error);
+  }
+}
+
+function startBudgetDelete(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for deletion.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("deleting-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Delete ${item.category}?</h4>
+      <p>This removes the budget category for ${item.month}. Transactions will not be deleted.</p>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-delete-btn" onclick="confirmBudgetDelete(${budgetId})">
+        Confirm Delete
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+function startBudgetEdit(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for editing.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("editing-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Edit Budget Category</h4>
+      <p>${item.month}</p>
+    </div>
+
+    <div class="budget-edit-fields">
+      <label>
+        Category
+        <input type="text" id="editBudgetCategory-${budgetId}" value="${item.category}" />
+      </label>
+
+      <label>
+        Budget Amount
+        <input type="number" id="editBudgetAmount-${budgetId}" value="${item.budget_amount}" min="0" step="0.01" />
+      </label>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-save-btn" onclick="saveBudgetEdit(${budgetId})">
+        Save Changes
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+async function saveBudgetEdit(budgetId) {
+  const categoryInput = document.getElementById(
+    `editBudgetCategory-${budgetId}`,
+  );
+  const amountInput = document.getElementById(`editBudgetAmount-${budgetId}`);
+
+  if (!categoryInput || !amountInput) {
+    showInlineMessage("Could not read the edited budget values.", "error");
+    return;
+  }
+
+  const category = categoryInput.value.trim();
+  const budgetAmount = Number(amountInput.value);
+
+  if (!category) {
+    showInlineMessage("Category name cannot be empty.", "error");
+    return;
+  }
+
+  if (Number.isNaN(budgetAmount) || budgetAmount < 0) {
+    showInlineMessage("Budget amount must be zero or more.", "error");
+    return;
+  }
+
+  try {
+    await apiPut(`/budget/${budgetId}`, {
+      category,
+      budget_amount: budgetAmount,
+    });
+
+    await refreshAllData();
+
+    showInlineMessage("Budget category updated successfully.", "success");
+  } catch (error) {
+    showInlineMessage("Could not update the budget category.", "error");
+    console.error(error);
+  }
+}
+
+function startBudgetDelete(budgetId) {
+  const item = currentBudgetItems[budgetId];
+  const row = document.getElementById(`budget-row-${budgetId}`);
+
+  if (!item || !row) {
+    showInlineMessage(
+      "Could not load this budget category for deletion.",
+      "error",
+    );
+    return;
+  }
+
+  row.classList.add("deleting-budget-row");
+
+  row.innerHTML = `
+    <div class="budget-edit-title">
+      <h4>Delete ${item.category}?</h4>
+      <p>This removes the budget category for ${item.month}. Transactions will not be deleted.</p>
+    </div>
+
+    <div class="budget-edit-actions">
+      <button type="button" class="small-delete-btn" onclick="confirmBudgetDelete(${budgetId})">
+        Confirm Delete
+      </button>
+
+      <button type="button" class="small-cancel-btn" onclick="loadBudget()">
+        Cancel
+      </button>
+    </div>
+  `;
+}
+
+async function confirmBudgetDelete(budgetId) {
+  try {
+    await apiDelete(`/budget/${budgetId}`);
+
+    await refreshAllData();
+
+    showInlineMessage("Budget category deleted successfully.", "success");
+  } catch (error) {
+    showInlineMessage("Could not delete the budget category.", "error");
+    console.error(error);
+  }
+}
 /* ---------------- ANALYSIS ---------------- */
 
 async function loadAnalysis() {

@@ -1097,3 +1097,119 @@ tr:hover {
     align-items: flex-start;
   }
 }
+
+
+.budget-progress-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.budget-action-buttons,
+.budget-edit-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.small-edit-btn,
+.small-save-btn,
+.small-cancel-btn,
+.small-delete-btn {
+  border: none;
+  padding: 9px 13px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.small-edit-btn {
+  background: #e8efff;
+  color: #123b8f;
+}
+
+.small-edit-btn:hover {
+  background: #dbeafe;
+}
+
+.small-save-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.small-save-btn:hover {
+  background: #1d4ed8;
+}
+
+.small-cancel-btn {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.small-cancel-btn:hover {
+  background: #e2e8f0;
+}
+
+.small-delete-btn {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.small-delete-btn:hover {
+  background: #fecaca;
+}
+
+.editing-budget-row,
+.deleting-budget-row {
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  background: #ffffff;
+  border: 2px solid #bfdbfe;
+}
+
+.deleting-budget-row {
+  border-color: #fecaca;
+}
+
+.budget-edit-title h4 {
+  margin: 0 0 4px;
+  color: #0f172a;
+  font-size: 1.2rem;
+}
+
+.budget-edit-title p {
+  margin: 0;
+  color: #64748b;
+}
+
+.budget-edit-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.budget-edit-fields label {
+  display: block;
+  color: #334155;
+  font-weight: 800;
+}
+
+.budget-edit-fields input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.budget-edit-fields input:focus {
+  outline: 3px solid #bfdbfe;
+  border-color: #2563eb;
+}
+
+@media (max-width: 700px) {
+  .budget-edit-fields {
+    grid-template-columns: 1fr;
+  }
+}

@@ -169,6 +169,20 @@ def insert_rows(table_name, rows):
         payload=rows,
     )
 
+def update_rows(table_name, filters, row):
+    params = {}
+
+    for key, value in filters.items():
+        params[key] = f"eq.{value}"
+
+    return supabase_request(
+        method="PATCH",
+        table_name=table_name,
+        params=params,
+        payload=row,
+    )
+
+
 
 def delete_rows(table_name, filters):
     params = {}

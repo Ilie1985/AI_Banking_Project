@@ -12,6 +12,7 @@ from app.database import (
     insert_row,
     insert_rows,
     select_rows,
+    update_rows,
     upsert_row,
 )
 
@@ -427,6 +428,102 @@ def create_budget(budget, user_id):
     }
 
 
+def update_budget(budget_id, budget_update, user_id):
+    existing_rows = select_rows(
+        table_name="budgets",
+        filters={
+            "id": budget_id,
+            "user_id": user_id,
+        },
+    )
+
+    if not existing_rows:
+        raise ValueError("Budget category was not found for this account.")
+
+    update_data = {}
+
+    if budget_update.category is not None:
+        update_data["category"] = clean_category(budget_update.category)
+
+    if budget_update.budget_amount is not None:
+        update_data["budget_amount"] = budget_update.budget_amount
+
+    if budget_update.monthly_income is not None:
+        update_data["monthly_income"] = budget_update.monthly_income
+
+    if not update_data:
+        raise ValueError("No budget values were provided for update.")
+
+    updated_rows = update_rows(
+        table_name="budgets",
+        filters={
+            "id": budget_id,
+            "user_id": user_id,
+        },
+        row=update_data,
+    )
+
+    updated = updated_rows[0] if updated_rows else None
+
+    category_name = update_data.get(
+        "category",
+        existing_rows[0].get("category", "Unknown category"),
+    )
+
+    add_audit_log(
+        action="UPDATE",
+        record_type="budget",
+        user_id=user_id,
+        record_id=budget_id,
+        source="manual",
+        details=f"Budget updated for {category_name}",
+    )
+
+    return {
+        "message": "Budget category updated successfully.",
+        "id": budget_id,
+        "budget": updated,
+    }
+
+
+def delete_budget(budget_id, user_id):
+    existing_rows = select_rows(
+        table_name="budgets",
+        filters={
+            "id": budget_id,
+            "user_id": user_id,
+        },
+    )
+
+    if not existing_rows:
+        raise ValueError("Budget category was not found for this account.")
+
+    category_name = existing_rows[0].get("category", "Unknown category")
+
+    delete_rows(
+        table_name="budgets",
+        filters={
+            "id": budget_id,
+            "user_id": user_id,
+        },
+    )
+
+    add_audit_log(
+        action="DELETE",
+        record_type="budget",
+        user_id=user_id,
+        record_id=budget_id,
+        source="manual",
+        details=f"Budget deleted for {category_name}",
+    )
+
+    return {
+        "message": "Budget category deleted successfully.",
+        "id": budget_id,
+    }
+
+
+
 def get_dashboard(user_id):
     df = get_all_transactions(user_id)
     active_dataset = get_active_dataset_mode(user_id)
@@ -656,14 +753,17 @@ def get_budget_summary(user_id):
         merged["status"] = merged.apply(budget_status, axis=1)
 
         category_budgets = merged[
-            [
-                "category",
-                "budget_amount",
-                "spent",
-                "remaining",
-                "status",
-            ]
-        ].to_dict(orient="records")
+    [
+        "id",
+        "month",
+        "monthly_income",
+        "category",
+        "budget_amount",
+        "spent",
+        "remaining",
+        "status",
+    ]
+].to_dict(orient="records")
 
         budget_groups.append(
             {

@@ -41,7 +41,6 @@ def main():
 
     supabase_url = env_values.get("SUPABASE_URL")
     supabase_anon_key = env_values.get("SUPABASE_ANON_KEY")
-    api_base = env_values.get("API_BASE", "http://127.0.0.1:8000")
 
     if not supabase_url or not supabase_anon_key:
         raise ValueError(
@@ -51,7 +50,6 @@ def main():
     config_content = f"""window.APP_CONFIG = {{
   SUPABASE_URL: "{supabase_url}",
   SUPABASE_ANON_KEY: "{supabase_anon_key}",
-  API_BASE: "{api_base}",
 }};
 """
 

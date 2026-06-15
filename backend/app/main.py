@@ -9,10 +9,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.database import initialise_database
-from app.schemas import TransactionCreate, BudgetCreate
+from app.schemas import TransactionCreate, BudgetCreate, BudgetUpdate
+
 from app.services import (
     create_manual_transaction,
     create_budget,
+    update_budget,
+    delete_budget,
     get_dashboard,
     get_budget_summary,
     get_forecast,
@@ -212,6 +215,28 @@ def create_new_budget(
 ):
     return create_budget(budget_data, user_id)
 
+
+@app.put("/budget/{budget_id}")
+def update_existing_budget(
+    budget_id: int,
+    budget_data: BudgetUpdate,
+    user_id: str = Depends(get_current_user_id),
+):
+    try:
+        return update_budget(budget_id, budget_data, user_id)
+    except Exception as error:
+        raise HTTPException(status_code=400, detail=str(error))
+
+
+@app.delete("/budget/{budget_id}")
+def delete_existing_budget(
+    budget_id: int,
+    user_id: str = Depends(get_current_user_id),
+):
+    try:
+        return delete_budget(budget_id, user_id)
+    except Exception as error:
+        raise HTTPException(status_code=400, detail=str(error))
 
 @app.post("/transactions")
 def create_new_transaction(
