@@ -403,6 +403,28 @@ function formatBudgetMonth(monthValue) {
   });
 }
 
+function getForecastReliabilityMessage(r2Score) {
+  const score = Number(r2Score || 0);
+
+  if (score < 0.3) {
+    return (
+      "A low R² score means the selected data has irregular spending patterns, " +
+      "so the forecast should be treated as an estimate rather than a precise prediction."
+    );
+  }
+
+  if (score < 0.6) {
+    return (
+      "The R² score suggests the forecast has moderate reliability. " +
+      "The prediction can be useful as a guide, but spending patterns may still vary."
+    );
+  }
+
+  return (
+    "The R² score suggests the model has found a stronger pattern in the selected data. " +
+    "The forecast is likely to be more reliable, but it should still be treated as an estimate."
+  );
+}
 /* ---------------- DATA MODE ---------------- */
 
 async function loadDataStatus() {
@@ -1332,6 +1354,29 @@ function renderAnalysisSourceTable(data) {
   });
 }
 
+function getForecastReliabilityMessage(r2Score) {
+  const score = Number(r2Score || 0);
+
+  if (score < 0.3) {
+    return (
+      "A low R² score means the selected data has irregular spending patterns, " +
+      "so the forecast should be treated as an estimate rather than a precise prediction."
+    );
+  }
+
+  if (score < 0.6) {
+    return (
+      "The R² score suggests the forecast has moderate reliability. " +
+      "The prediction can be useful as a guide, but spending patterns may still vary."
+    );
+  }
+
+  return (
+    "The R² score suggests the model has found a stronger pattern in the selected data. " +
+    "The forecast is likely to be more reliable, but it should still be treated as an estimate."
+  );
+}
+
 /* ---------------- FORECAST ---------------- */
 
 async function loadForecast() {
@@ -1353,8 +1398,12 @@ async function loadForecast() {
         ? data.r2_score
         : "N/A";
 
-    document.getElementById("forecastMessage").textContent =
-      data.message || "No forecast explanation available.";
+    const reliabilityMessage = getForecastReliabilityMessage(data.r2_score);
+
+    document.getElementById("forecastMessage").innerHTML = `
+  <p>${data.message || "No forecast explanation available."}</p>
+  <p class="forecast-reliability-note">${reliabilityMessage}</p>
+`;
 
     renderForecastChart(data.chart_data || []);
   } catch (error) {

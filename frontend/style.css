@@ -851,7 +851,10 @@ tr:hover {
 
 .budget-category-row {
   display: grid;
-  grid-template-columns: minmax(180px, 1.1fr) minmax(360px, 2fr) minmax(180px, 1fr);
+  grid-template-columns: minmax(180px, 1.1fr) minmax(360px, 2fr) minmax(
+      180px,
+      1fr
+    );
   align-items: center;
   gap: 20px;
   padding: 18px;
@@ -1098,7 +1101,6 @@ tr:hover {
   }
 }
 
-
 .budget-progress-area {
   display: flex;
   flex-direction: column;
@@ -1212,4 +1214,14 @@ tr:hover {
   .budget-edit-fields {
     grid-template-columns: 1fr;
   }
+}
+
+.forecast-reliability-note {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  line-height: 1.5;
 }
