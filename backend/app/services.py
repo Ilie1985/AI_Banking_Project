@@ -33,6 +33,11 @@ TRANSACTION_COLUMNS = [
     "source",
 ]
 
+TRANSACTION_METADATA_COLUMNS = [
+    "id",
+    "created_at",
+]
+
 
 def standardise_transaction_type(value, amount=None):
     value = str(value).strip().lower()
@@ -94,21 +99,46 @@ def clean_date(value):
     if value == "" or value.lower() in ["nan", "none", "null"]:
         return None
 
-    # HTML date inputs send dates as YYYY-MM-DD.
-    # We must parse this format exactly so 2026-06-09 stays as 9 June 2026.
     try:
         converted = pd.to_datetime(value, format="%Y-%m-%d", errors="raise")
         return converted.strftime("%Y-%m-%d")
     except Exception:
         pass
 
-    # UK-style dates such as 09/06/2026 should be treated as 9 June 2026.
     converted = pd.to_datetime(value, errors="coerce", dayfirst=True)
 
     if pd.isna(converted):
         return None
 
     return converted.strftime("%Y-%m-%d")
+
+
+def normalise_transaction_dataframe(df, default_source):
+    if df.empty:
+        return pd.DataFrame(columns=TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS)
+
+    for column in TRANSACTION_COLUMNS:
+        if column not in df.columns:
+            if column == "date":
+                df[column] = None
+            elif column == "description":
+                df[column] = "No description"
+            elif column == "amount":
+                df[column] = 0
+            elif column == "transaction_type":
+                df[column] = "expense"
+            elif column == "category":
+                df[column] = "Uncategorised"
+            elif column == "payment_method":
+                df[column] = default_source
+            elif column == "source":
+                df[column] = default_source
+
+    for column in TRANSACTION_METADATA_COLUMNS:
+        if column not in df.columns:
+            df[column] = None
+
+    return df[TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS]
 
 
 def get_active_dataset_setting_name(user_id):
@@ -174,7 +204,7 @@ def load_demo_transactions():
     elif raw_file.exists():
         df = pd.read_csv(raw_file)
     else:
-        return pd.DataFrame(columns=TRANSACTION_COLUMNS)
+        return pd.DataFrame(columns=TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS)
 
     df.columns = [column.strip().lower().replace(" ", "_") for column in df.columns]
 
@@ -229,37 +259,40 @@ def load_demo_transactions():
     df["payment_method"] = df["payment_method"].fillna("Mock data")
     df["source"] = "mock"
 
-    return df[TRANSACTION_COLUMNS]
+    df["id"] = None
+    df["created_at"] = None
+
+    return normalise_transaction_dataframe(df, "mock")
 
 
 def load_manual_transactions(user_id):
     rows = select_rows(
         table_name="manual_transactions",
         filters={"user_id": user_id},
-        order="date.desc",
+        order="created_at.desc",
     )
 
     if not rows:
-        return pd.DataFrame(columns=TRANSACTION_COLUMNS)
+        return pd.DataFrame(columns=TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS)
 
     df = pd.DataFrame(rows)
 
-    return df[TRANSACTION_COLUMNS]
+    return normalise_transaction_dataframe(df, "manual")
 
 
 def load_uploaded_transactions(user_id):
     rows = select_rows(
         table_name="uploaded_transactions",
         filters={"user_id": user_id},
-        order="date.desc",
+        order="created_at.desc",
     )
 
     if not rows:
-        return pd.DataFrame(columns=TRANSACTION_COLUMNS)
+        return pd.DataFrame(columns=TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS)
 
     df = pd.DataFrame(rows)
 
-    return df[TRANSACTION_COLUMNS]
+    return normalise_transaction_dataframe(df, "uploaded")
 
 
 def count_mock_transactions():
@@ -345,13 +378,19 @@ def get_all_transactions(user_id):
         df = mock_df
 
     if df.empty:
-        return pd.DataFrame(columns=TRANSACTION_COLUMNS + ["month"])
+        return pd.DataFrame(
+            columns=TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS + ["month"]
+        )
+
+    df = normalise_transaction_dataframe(df, active_dataset)
 
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
     df = df.dropna(subset=["date"])
 
     if df.empty:
-        return pd.DataFrame(columns=TRANSACTION_COLUMNS + ["month"])
+        return pd.DataFrame(
+            columns=TRANSACTION_COLUMNS + TRANSACTION_METADATA_COLUMNS + ["month"]
+        )
 
     df["month"] = df["date"].dt.to_period("M").astype(str)
     df["amount"] = pd.to_numeric(df["amount"], errors="coerce").fillna(0)
@@ -523,7 +562,6 @@ def delete_budget(budget_id, user_id):
     }
 
 
-
 def get_dashboard(user_id):
     df = get_all_transactions(user_id)
     active_dataset = get_active_dataset_mode(user_id)
@@ -660,9 +698,6 @@ def get_spending_analysis(user_id):
     }
 
 
-
-
-
 def get_budget_summary(user_id):
     df = get_all_transactions(user_id)
 
@@ -753,17 +788,17 @@ def get_budget_summary(user_id):
         merged["status"] = merged.apply(budget_status, axis=1)
 
         category_budgets = merged[
-    [
-        "id",
-        "month",
-        "monthly_income",
-        "category",
-        "budget_amount",
-        "spent",
-        "remaining",
-        "status",
-    ]
-].to_dict(orient="records")
+            [
+                "id",
+                "month",
+                "monthly_income",
+                "category",
+                "budget_amount",
+                "spent",
+                "remaining",
+                "status",
+            ]
+        ].to_dict(orient="records")
 
         budget_groups.append(
             {
@@ -923,15 +958,14 @@ def get_insights(user_id):
             f"Your highest spending category is {top_category['category']} at £{top_category['amount']:.2f}."
         )
 
-    for category in budget.get("category_budgets", []):
-        if category["status"] == "Over budget":
-            insights.append(
-                f"You are over budget in {category['category']}."
-            )
-        elif category["status"] == "Close to limit":
-            insights.append(
-                f"You are close to your budget limit in {category['category']}."
-            )
+    for group in budget.get("budget_groups", []):
+        for category in group.get("category_budgets", []):
+            if category["status"] == "Over budget":
+                insights.append(f"You are over budget in {category['category']}.")
+            elif category["status"] == "Close to limit":
+                insights.append(
+                    f"You are close to your budget limit in {category['category']}."
+                )
 
     if budget.get("safe_daily_spending", 0) > 0:
         insights.append(
@@ -963,7 +997,36 @@ def get_transactions(user_id, limit=100):
     if df.empty:
         return []
 
-    df = df.sort_values("date", ascending=False).head(limit)
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+
+    if "created_at" in df.columns:
+        df["created_at"] = pd.to_datetime(
+            df["created_at"],
+            errors="coerce",
+        )
+    else:
+        df["created_at"] = pd.NaT
+
+    has_created_at_values = df["created_at"].notna().any()
+
+    if has_created_at_values:
+        df["sort_created_at"] = df["created_at"].fillna(pd.Timestamp.min)
+
+        if "id" in df.columns:
+            df["sort_id"] = pd.to_numeric(df["id"], errors="coerce").fillna(0)
+        else:
+            df["sort_id"] = 0
+
+        df = df.sort_values(
+            by=["sort_created_at", "sort_id", "date"],
+            ascending=[False, False, False],
+            na_position="last",
+        )
+    else:
+        df = df.sort_values("date", ascending=False)
+
+    df = df.head(limit)
+
     df["date"] = df["date"].dt.strftime("%Y-%m-%d")
 
     return df[
