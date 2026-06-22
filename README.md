@@ -6,26 +6,12 @@ The application allows users to sign up, log in, add manual transactions, create
 
 This project was developed as an academic and portfolio project to demonstrate full-stack development, authentication, database integration, data processing, data visualisation and machine learning concepts.
 
----
-
-## Live Demo
-
-### Backend API
-
-```text
-https://ai-banking-backend-x040.onrender.com
-```
-
-### Backend Health Check
-
-```text
-https://ai-banking-backend-x040.onrender.com/health
-```
 
 ### Frontend Live Demo
 
-```text
-Add your Netlify or Vercel frontend link here
+```
+Frontend Live Demo:
+https://ai-banking-project.vercel.app
 ```
 
 ---

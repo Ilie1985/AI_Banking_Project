@@ -999,23 +999,32 @@ def get_transactions(user_id, limit=100):
 
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
 
-    if "created_at" in df.columns:
-        df["created_at"] = pd.to_datetime(
-            df["created_at"],
-            errors="coerce",
-        )
-    else:
-        df["created_at"] = pd.NaT
+    if "created_at" not in df.columns:
+        df["created_at"] = None
+
+    if "id" not in df.columns:
+        df["id"] = None
+
+    # Supabase created_at values can include timezone information.
+    # Mock rows do not have created_at, so we convert safely and avoid comparing
+    # timezone-aware timestamps with missing/mock values.
+    df["created_at"] = pd.to_datetime(
+        df["created_at"],
+        errors="coerce",
+        utc=True,
+    )
 
     has_created_at_values = df["created_at"].notna().any()
 
     if has_created_at_values:
-        df["sort_created_at"] = df["created_at"].fillna(pd.Timestamp.min)
+        df["sort_created_at"] = df["created_at"].apply(
+            lambda value: value.timestamp() if pd.notna(value) else -1
+        )
 
-        if "id" in df.columns:
-            df["sort_id"] = pd.to_numeric(df["id"], errors="coerce").fillna(0)
-        else:
-            df["sort_id"] = 0
+        df["sort_id"] = pd.to_numeric(
+            df["id"],
+            errors="coerce",
+        ).fillna(0)
 
         df = df.sort_values(
             by=["sort_created_at", "sort_id", "date"],
