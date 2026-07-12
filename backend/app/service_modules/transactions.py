@@ -20,7 +20,7 @@ from app.service_modules.cleaning import (
 from app.service_modules.dataset import get_active_dataset_mode
 
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data"
 CLEANED_DIR = DATA_DIR / "cleaned"
 RAW_DIR = DATA_DIR / "raw"

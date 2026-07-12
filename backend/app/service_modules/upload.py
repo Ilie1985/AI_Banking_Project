@@ -51,12 +51,12 @@ def upload_csv_transactions(
         amount_value = clean_amount(row[amount_column])
 
         if type_column and type_column in df.columns:
-            transaction_type = standardise_transaction_type(
+            transaction_type =         standardise_transaction_type(
                 row[type_column],
                 amount_value,
             )
         else:
-            transaction_type = standardise_transaction_type("", amount_value)
+            transaction_type = "expense"
 
         if payment_method_column and payment_method_column in df.columns:
             payment_method = str(row[payment_method_column])
